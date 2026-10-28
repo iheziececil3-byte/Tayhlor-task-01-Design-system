@@ -1,0 +1,423 @@
+﻿
+convert-tokens.js:70: * or rgba(r, g, b, a) if transparent.
+convert-tokens.js:89:    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+evidence tokens-complete.json:9:        "color": "#101b2d26",
+evidence tokens-complete.json:27:        "color": "#101b2d33",
+evidence tokens-complete.json:45:        "color": "#101b2d33",
+evidence tokens-complete.json:62:        "value": "#101b2dff",
+evidence tokens-complete.json:77:        "value": "#425c8aff",
+evidence tokens-complete.json:92:        "value": "#b3c5e8ff",
+evidence tokens-complete.json:107:        "value": "#1a1c20ff",
+evidence tokens-complete.json:122:        "value": "#1d2028ff",
+evidence tokens-complete.json:137:        "value": "#ba1a1aff",
+evidence tokens-complete.json:152:        "value": "#7d5700ff",
+evidence tokens-complete.json:167:        "value": "#2e6b3eff",
+evidence tokens-complete.json:185:          "value": "#000000ff",
+evidence tokens-complete.json:200:          "value": "#091320ff",
+evidence tokens-complete.json:215:          "value": "#162438ff",
+evidence tokens-complete.json:230:          "value": "#243652ff",
+evidence tokens-complete.json:245:          "value": "#101b2dff",
+evidence tokens-complete.json:260:          "value": "#425c8aff",
+evidence tokens-complete.json:275:          "value": "#5d79a8ff",
+evidence tokens-complete.json:290:          "value": "#7b97c7ff",
+evidence tokens-complete.json:305:          "value": "#9ab6e6ff",
+evidence tokens-complete.json:320:          "value": "#bcd2ffff",
+evidence tokens-complete.json:335:          "value": "#dee8ffff",
+evidence tokens-complete.json:350:          "value": "#f3f6ffff",
+evidence tokens-complete.json:365:          "value": "#f8f9ffff",
+evidence tokens-complete.json:380:          "value": "#ffffffff",
+evidence tokens-complete.json:397:          "value": "#000000ff",
+evidence tokens-complete.json:412:          "value": "#0b1525ff",
+evidence tokens-complete.json:427:          "value": "#202a3bff",
+evidence tokens-complete.json:442:          "value": "#364052ff",
+evidence tokens-complete.json:457:          "value": "#4d586aff",
+evidence tokens-complete.json:472:          "value": "#657083ff",
+evidence tokens-complete.json:487:          "value": "#7f8a9dff",
+evidence tokens-complete.json:502:          "value": "#99a4b8ff",
+evidence tokens-complete.json:517:          "value": "#b4bfd4ff",
+evidence tokens-complete.json:532:          "value": "#cfdbf0ff",
+evidence tokens-complete.json:547:          "value": "#dee9ffff",
+evidence tokens-complete.json:562:          "value": "#f3f6ffff",
+evidence tokens-complete.json:577:          "value": "#f8f9ffff",
+evidence tokens-complete.json:592:          "value": "#ffffffff",
+evidence tokens-complete.json:609:          "value": "#000000ff",
+evidence tokens-complete.json:624:          "value": "#1a2337ff",
+evidence tokens-complete.json:639:          "value": "#2f394eff",
+evidence tokens-complete.json:654:          "value": "#465066ff",
+evidence tokens-complete.json:669:          "value": "#5d687fff",
+evidence tokens-complete.json:684:          "value": "#768199ff",
+evidence tokens-complete.json:699:          "value": "#909bb4ff",
+evidence tokens-complete.json:714:          "value": "#abb7d0ff",
+evidence tokens-complete.json:729:          "value": "#c6d3ecff",
+evidence tokens-complete.json:744:          "value": "#e2efffff",
+evidence tokens-complete.json:759:          "value": "#f0f2ffff",
+evidence tokens-complete.json:774:          "value": "#fafbffff",
+evidence tokens-complete.json:789:          "value": "#fcfbffff",
+evidence tokens-complete.json:804:          "value": "#ffffffff",
+evidence tokens-complete.json:821:          "value": "#000000ff",
+evidence tokens-complete.json:836:          "value": "#1a1c20ff",
+evidence tokens-complete.json:851:          "value": "#2f3034ff",
+evidence tokens-complete.json:866:          "value": "#46474aff",
+evidence tokens-complete.json:881:          "value": "#5e5e62ff",
+evidence tokens-complete.json:896:          "value": "#77777aff",
+evidence tokens-complete.json:911:          "value": "#919094ff",
+evidence tokens-complete.json:926:          "value": "#acabaeff",
+evidence tokens-complete.json:941:          "value": "#c7c6c9ff",
+evidence tokens-complete.json:956:          "value": "#e4e2e5ff",
+evidence tokens-complete.json:971:          "value": "#f2f0f3ff",
+evidence tokens-complete.json:986:          "value": "#faf9fcff",
+evidence tokens-complete.json:1001:          "value": "#fbf8fcff",
+evidence tokens-complete.json:1016:          "value": "#ffffffff",
+evidence tokens-complete.json:1031:          "value": "#0d0e11ff",
+evidence tokens-complete.json:1046:          "value": "#111216ff",
+evidence tokens-complete.json:1061:          "value": "#1e2024ff",
+evidence tokens-complete.json:1076:          "value": "#292b2fff",
+evidence tokens-complete.json:1091:          "value": "#333539ff",
+evidence tokens-complete.json:1106:          "value": "#383a3eff",
+evidence tokens-complete.json:1121:          "value": "#dbdaddff",
+evidence tokens-complete.json:1136:          "value": "#eae8ebff",
+evidence tokens-complete.json:1151:          "value": "#efeef1ff",
+evidence tokens-complete.json:1166:          "value": "#f5f3f6ff",
+evidence tokens-complete.json:1183:          "value": "#000000ff",
+evidence tokens-complete.json:1198:          "value": "#1d2028ff",
+evidence tokens-complete.json:1213:          "value": "#32353dff",
+evidence tokens-complete.json:1228:          "value": "#494c54ff",
+evidence tokens-complete.json:1243:          "value": "#60636cff",
+evidence tokens-complete.json:1258:          "value": "#797c85ff",
+evidence tokens-complete.json:1273:          "value": "#93959fff",
+evidence tokens-complete.json:1288:          "value": "#aeb0baff",
+evidence tokens-complete.json:1303:          "value": "#c9cbd5ff",
+evidence tokens-complete.json:1318:          "value": "#e6e7f0ff",
+evidence tokens-complete.json:1333:          "value": "#f4f5feff",
+evidence tokens-complete.json:1348:          "value": "#fcfcffff",
+evidence tokens-complete.json:1363:          "value": "#fefbffff",
+evidence tokens-complete.json:1378:          "value": "#ffffffff",
+evidence tokens-complete.json:1393:          "value": "#101217ff",
+evidence tokens-complete.json:1408:          "value": "#14161bff",
+evidence tokens-complete.json:1423:          "value": "#21242cff",
+evidence tokens-complete.json:1438:          "value": "#2c2f37ff",
+evidence tokens-complete.json:1453:          "value": "#363942ff",
+evidence tokens-complete.json:1468:          "value": "#3b3e47ff",
+evidence tokens-complete.json:1483:          "value": "#dddfe9ff",
+evidence tokens-complete.json:1498:          "value": "#ecedf5ff",
+evidence tokens-complete.json:1513:          "value": "#f1f2faff",
+evidence tokens-complete.json:1528:          "value": "#f7f8ffff",
+evidence tokens-complete.json:1545:          "value": "#000000ff",
+evidence tokens-complete.json:1560:          "value": "#410002ff",
+evidence tokens-complete.json:1575:          "value": "#690005ff",
+evidence tokens-complete.json:1590:          "value": "#93000aff",
+evidence tokens-complete.json:1605:          "value": "#ba1a1aff",
+evidence tokens-complete.json:1620:          "value": "#de3730ff",
+evidence tokens-complete.json:1635:          "value": "#ff5449ff",
+evidence tokens-complete.json:1650:          "value": "#ff897dff",
+evidence tokens-complete.json:1665:          "value": "#ffb4abff",
+evidence tokens-complete.json:1680:          "value": "#ffdad6ff",
+evidence tokens-complete.json:1695:          "value": "#ffedeaff",
+evidence tokens-complete.json:1710:          "value": "#fff8f7ff",
+evidence tokens-complete.json:1725:          "value": "#fffbffff",
+evidence tokens-complete.json:1740:          "value": "#ffffffff",
+evidence tokens-complete.json:1757:          "value": "#000000ff",
+evidence tokens-complete.json:1772:          "value": "#271900ff",
+evidence tokens-complete.json:1787:          "value": "#422c00ff",
+evidence tokens-complete.json:1802:          "value": "#5f4100ff",
+evidence tokens-complete.json:1817:          "value": "#7d5700ff",
+evidence tokens-complete.json:1832:          "value": "#9d6e00ff",
+evidence tokens-complete.json:1847:          "value": "#bd8600ff",
+evidence tokens-complete.json:1862:          "value": "#df9f00ff",
+evidence tokens-complete.json:1877:          "value": "#ffb945ff",
+evidence tokens-complete.json:1892:          "value": "#ffdea8ff",
+evidence tokens-complete.json:1907:          "value": "#ffefd6ff",
+evidence tokens-complete.json:1922:          "value": "#fff8f1ff",
+evidence tokens-complete.json:1937:          "value": "#fffbffff",
+evidence tokens-complete.json:1952:          "value": "#ffffffff",
+evidence tokens-complete.json:1969:          "value": "#000000ff",
+evidence tokens-complete.json:1984:          "value": "#00210bff",
+evidence tokens-complete.json:1999:          "value": "#00391cff",
+evidence tokens-complete.json:2014:          "value": "#00522aff",
+evidence tokens-complete.json:2029:          "value": "#2e6b3eff",
+evidence tokens-complete.json:2044:          "value": "#468553ff",
+evidence tokens-complete.json:2059:          "value": "#5fa06bff",
+evidence tokens-complete.json:2074:          "value": "#7abb84ff",
+evidence tokens-complete.json:2089:          "value": "#95d79eff",
+evidence tokens-complete.json:2104:          "value": "#b1f4b9ff",
+evidence tokens-complete.json:2119:          "value": "#c8ffceff",
+evidence tokens-complete.json:2134:          "value": "#ebffe9ff",
+evidence tokens-complete.json:2149:          "value": "#f6fff3ff",
+evidence tokens-complete.json:2164:          "value": "#ffffffff",
+tokens.css:44:  --primitive-key-primary: #101b2d; /* primary key color */
+tokens.css:45:  --primitive-key-secondary: #425c8a; /* secondary key color */
+tokens.css:46:  --primitive-key-tertiary: #b3c5e8; /* tertiary key color */
+tokens.css:47:  --primitive-key-neutral: #1a1c20; /* neutral key color */
+tokens.css:48:  --primitive-key-neutral-variant: #1d2028; /* neutral variant key color */
+tokens.css:49:  --primitive-key-error: #ba1a1a; /* error key color */
+tokens.css:50:  --primitive-key-warning: #7d5700; /* warning key color */
+tokens.css:51:  --primitive-key-success: #2e6b3e; /* success key color */
+tokens.css:59:  --primitive-palette-primary-0: #000000;
+tokens.css:60:  --primitive-palette-primary-10: #091320;
+tokens.css:61:  --primitive-palette-primary-20: #162438;
+tokens.css:62:  --primitive-palette-primary-30: #243652;
+tokens.css:63:  --primitive-palette-primary-40: #101b2d;
+tokens.css:64:  --primitive-palette-primary-50: #425c8a;
+tokens.css:65:  --primitive-palette-primary-60: #5d79a8;
+tokens.css:66:  --primitive-palette-primary-70: #7b97c7;
+tokens.css:67:  --primitive-palette-primary-80: #9ab6e6;
+tokens.css:68:  --primitive-palette-primary-90: #bcd2ff;
+tokens.css:69:  --primitive-palette-primary-95: #dee8ff;
+tokens.css:70:  --primitive-palette-primary-98: #f3f6ff;
+tokens.css:71:  --primitive-palette-primary-99: #f8f9ff;
+tokens.css:72:  --primitive-palette-primary-100: #ffffff;
+tokens.css:75:  --primitive-palette-secondary-0: #000000;
+tokens.css:76:  --primitive-palette-secondary-10: #0b1525;
+tokens.css:77:  --primitive-palette-secondary-20: #202a3b;
+tokens.css:78:  --primitive-palette-secondary-30: #364052;
+tokens.css:79:  --primitive-palette-secondary-40: #4d586a;
+tokens.css:80:  --primitive-palette-secondary-50: #657083;
+tokens.css:81:  --primitive-palette-secondary-60: #7f8a9d;
+tokens.css:82:  --primitive-palette-secondary-70: #99a4b8;
+tokens.css:83:  --primitive-palette-secondary-80: #b4bfd4;
+tokens.css:84:  --primitive-palette-secondary-90: #cfdbf0;
+tokens.css:85:  --primitive-palette-secondary-95: #dee9ff;
+tokens.css:86:  --primitive-palette-secondary-98: #f3f6ff;
+tokens.css:87:  --primitive-palette-secondary-99: #f8f9ff;
+tokens.css:88:  --primitive-palette-secondary-100: #ffffff;
+tokens.css:91:  --primitive-palette-tertiary-0: #000000;
+tokens.css:92:  --primitive-palette-tertiary-10: #1a2337;
+tokens.css:93:  --primitive-palette-tertiary-20: #2f394e;
+tokens.css:94:  --primitive-palette-tertiary-30: #465066;
+tokens.css:95:  --primitive-palette-tertiary-40: #5d687f;
+tokens.css:96:  --primitive-palette-tertiary-50: #768199;
+tokens.css:97:  --primitive-palette-tertiary-60: #909bb4;
+tokens.css:98:  --primitive-palette-tertiary-70: #abb7d0;
+tokens.css:99:  --primitive-palette-tertiary-80: #c6d3ec;
+tokens.css:100:  --primitive-palette-tertiary-90: #e2efff;
+tokens.css:101:  --primitive-palette-tertiary-95: #f0f2ff;
+tokens.css:102:  --primitive-palette-tertiary-98: #fafbff;
+tokens.css:103:  --primitive-palette-tertiary-99: #fcfbff;
+tokens.css:104:  --primitive-palette-tertiary-100: #ffffff;
+tokens.css:107:  --primitive-palette-neutral-0: #000000;
+tokens.css:108:  --primitive-palette-neutral-4: #0d0e11;
+tokens.css:109:  --primitive-palette-neutral-6: #111216;
+tokens.css:110:  --primitive-palette-neutral-10: #1a1c20;
+tokens.css:111:  --primitive-palette-neutral-12: #1e2024;
+tokens.css:112:  --primitive-palette-neutral-17: #292b2f;
+tokens.css:113:  --primitive-palette-neutral-20: #2f3034;
+tokens.css:114:  --primitive-palette-neutral-22: #333539;
+tokens.css:115:  --primitive-palette-neutral-24: #383a3e;
+tokens.css:116:  --primitive-palette-neutral-30: #46474a;
+tokens.css:117:  --primitive-palette-neutral-40: #5e5e62;
+tokens.css:118:  --primitive-palette-neutral-50: #77777a;
+tokens.css:119:  --primitive-palette-neutral-60: #919094;
+tokens.css:120:  --primitive-palette-neutral-70: #acabae;
+tokens.css:121:  --primitive-palette-neutral-80: #c7c6c9;
+tokens.css:122:  --primitive-palette-neutral-87: #dbdadd;
+tokens.css:123:  --primitive-palette-neutral-90: #e4e2e5;
+tokens.css:124:  --primitive-palette-neutral-92: #eae8eb;
+tokens.css:125:  --primitive-palette-neutral-94: #efeef1;
+tokens.css:126:  --primitive-palette-neutral-95: #f2f0f3;
+tokens.css:127:  --primitive-palette-neutral-96: #f5f3f6;
+tokens.css:128:  --primitive-palette-neutral-98: #faf9fc;
+tokens.css:129:  --primitive-palette-neutral-99: #fbf8fc;
+tokens.css:130:  --primitive-palette-neutral-100: #ffffff;
+tokens.css:133:  --primitive-palette-neutral-variant-0: #000000;
+tokens.css:134:  --primitive-palette-neutral-variant-4: #101217;
+tokens.css:135:  --primitive-palette-neutral-variant-6: #14161b;
+tokens.css:136:  --primitive-palette-neutral-variant-10: #1d2028;
+tokens.css:137:  --primitive-palette-neutral-variant-12: #21242c;
+tokens.css:138:  --primitive-palette-neutral-variant-17: #2c2f37;
+tokens.css:139:  --primitive-palette-neutral-variant-20: #32353d;
+tokens.css:140:  --primitive-palette-neutral-variant-22: #363942;
+tokens.css:141:  --primitive-palette-neutral-variant-24: #3b3e47;
+tokens.css:142:  --primitive-palette-neutral-variant-30: #494c54;
+tokens.css:143:  --primitive-palette-neutral-variant-40: #60636c;
+tokens.css:144:  --primitive-palette-neutral-variant-50: #797c85;
+tokens.css:145:  --primitive-palette-neutral-variant-60: #93959f;
+tokens.css:146:  --primitive-palette-neutral-variant-70: #aeb0ba;
+tokens.css:147:  --primitive-palette-neutral-variant-80: #c9cbd5;
+tokens.css:148:  --primitive-palette-neutral-variant-87: #dddfe9;
+tokens.css:149:  --primitive-palette-neutral-variant-90: #e6e7f0;
+tokens.css:150:  --primitive-palette-neutral-variant-92: #ecedf5;
+tokens.css:151:  --primitive-palette-neutral-variant-94: #f1f2fa;
+tokens.css:152:  --primitive-palette-neutral-variant-95: #f4f5fe;
+tokens.css:153:  --primitive-palette-neutral-variant-96: #f7f8ff;
+tokens.css:154:  --primitive-palette-neutral-variant-98: #fcfcff;
+tokens.css:155:  --primitive-palette-neutral-variant-99: #fefbff;
+tokens.css:156:  --primitive-palette-neutral-variant-100: #ffffff;
+tokens.css:159:  --primitive-palette-error-0: #000000;
+tokens.css:160:  --primitive-palette-error-10: #410002;
+tokens.css:161:  --primitive-palette-error-20: #690005;
+tokens.css:162:  --primitive-palette-error-30: #93000a;
+tokens.css:163:  --primitive-palette-error-40: #ba1a1a;
+tokens.css:164:  --primitive-palette-error-50: #de3730;
+tokens.css:165:  --primitive-palette-error-60: #ff5449;
+tokens.css:166:  --primitive-palette-error-70: #ff897d;
+tokens.css:167:  --primitive-palette-error-80: #ffb4ab;
+tokens.css:168:  --primitive-palette-error-90: #ffdad6;
+tokens.css:169:  --primitive-palette-error-95: #ffedea;
+tokens.css:170:  --primitive-palette-error-98: #fff8f7;
+tokens.css:171:  --primitive-palette-error-99: #fffbff;
+tokens.css:172:  --primitive-palette-error-100: #ffffff;
+tokens.css:175:  --primitive-palette-warning-0: #000000;
+tokens.css:176:  --primitive-palette-warning-10: #271900;
+tokens.css:177:  --primitive-palette-warning-20: #422c00;
+tokens.css:178:  --primitive-palette-warning-30: #5f4100;
+tokens.css:179:  --primitive-palette-warning-40: #7d5700;
+tokens.css:180:  --primitive-palette-warning-50: #9d6e00;
+tokens.css:181:  --primitive-palette-warning-60: #bd8600;
+tokens.css:182:  --primitive-palette-warning-70: #df9f00;
+tokens.css:183:  --primitive-palette-warning-80: #ffb945;
+tokens.css:184:  --primitive-palette-warning-90: #ffdea8;
+tokens.css:185:  --primitive-palette-warning-95: #ffefd6;
+tokens.css:186:  --primitive-palette-warning-98: #fff8f1;
+tokens.css:187:  --primitive-palette-warning-99: #fffbff;
+tokens.css:188:  --primitive-palette-warning-100: #ffffff;
+tokens.css:191:  --primitive-palette-success-0: #000000;
+tokens.css:192:  --primitive-palette-success-10: #00210b;
+tokens.css:193:  --primitive-palette-success-20: #00391c;
+tokens.css:194:  --primitive-palette-success-30: #00522a;
+tokens.css:195:  --primitive-palette-success-40: #2e6b3e;
+tokens.css:196:  --primitive-palette-success-50: #468553;
+tokens.css:197:  --primitive-palette-success-60: #5fa06b;
+tokens.css:198:  --primitive-palette-success-70: #7abb84;
+tokens.css:199:  --primitive-palette-success-80: #95d79e;
+tokens.css:200:  --primitive-palette-success-90: #b1f4b9;
+tokens.css:201:  --primitive-palette-success-95: #c8ffce;
+tokens.css:202:  --primitive-palette-success-98: #ebffe9;
+tokens.css:203:  --primitive-palette-success-99: #f6fff3;
+tokens.css:204:  --primitive-palette-success-100: #ffffff;
+tokens.css:212:  --color-primary: var(--primitive-palette-primary-40); /* #101b2d | ref: primitives.color 
+palettes.primary.primary40 */
+tokens.css:213:  --color-on-primary: var(--primitive-palette-primary-100); /* #ffffff | ref: primitives.color 
+palettes.primary.primary100 */
+tokens.css:214:  --color-primary-container: var(--primitive-palette-primary-90); /* #bcd2ff | ref: primitives.color 
+palettes.primary.primary90 */
+tokens.css:215:  --color-on-primary-container: var(--primitive-palette-primary-30); /* #243652 | ref: primitives.color 
+palettes.primary.primary30 */
+tokens.css:216:  --color-primary-fixed: var(--primitive-palette-primary-90); /* #bcd2ff | ref: primitives.color 
+palettes.primary.primary90 */
+tokens.css:217:  --color-on-primary-fixed: var(--primitive-palette-primary-10); /* #091320 | ref: primitives.color 
+palettes.primary.primary10 */
+tokens.css:218:  --color-primary-fixed-dim: var(--primitive-palette-primary-80); /* #9ab6e6 | ref: primitives.color 
+palettes.primary.primary80 */
+tokens.css:219:  --color-on-primary-fixed-variant: var(--primitive-palette-primary-30); /* #243652 | ref: 
+primitives.color palettes.primary.primary30 */
+tokens.css:220:  --color-inverse-primary: var(--primitive-palette-primary-80); /* #9ab6e6 | ref: primitives.color 
+palettes.primary.primary80 */
+tokens.css:223:  --color-secondary: var(--primitive-palette-secondary-40); /* #4d586a | ref: primitives.color 
+palettes.secondary.secondary40 */
+tokens.css:224:  --color-on-secondary: var(--primitive-palette-secondary-100); /* #ffffff | ref: primitives.color 
+palettes.secondary.secondary100 */
+tokens.css:225:  --color-secondary-container: var(--primitive-palette-secondary-90); /* #cfdbf0 | ref: 
+primitives.color palettes.secondary.secondary90 */
+tokens.css:226:  --color-on-secondary-container: var(--primitive-palette-primary-30); /* #243652 | ref: 
+primitives.color palettes.primary.primary30 */
+tokens.css:227:  --color-secondary-fixed: var(--primitive-palette-secondary-90); /* #cfdbf0 | ref: primitives.color 
+palettes.secondary.secondary90 */
+tokens.css:228:  --color-on-secondary-fixed: var(--primitive-palette-secondary-10); /* #0b1525 | ref: primitives.color 
+palettes.secondary.secondary10 */
+tokens.css:229:  --color-secondary-fixed-dim: var(--primitive-palette-secondary-80); /* #b4bfd4 | ref: 
+primitives.color palettes.secondary.secondary80 */
+tokens.css:230:  --color-on-secondary-fixed-variant: var(--primitive-palette-secondary-30); /* #364052 | ref: 
+primitives.color palettes.secondary.secondary30 */
+tokens.css:233:  --color-tertiary: var(--primitive-palette-tertiary-40); /* #5d687f | ref: primitives.color 
+palettes.tertiary.tertiary40 */
+tokens.css:234:  --color-on-tertiary: var(--primitive-palette-tertiary-100); /* #ffffff | ref: primitives.color 
+palettes.tertiary.tertiary100 */
+tokens.css:235:  --color-tertiary-container: var(--primitive-palette-tertiary-90); /* #e2efff | ref: primitives.color 
+palettes.tertiary.tertiary90 */
+tokens.css:236:  --color-on-tertiary-container: var(--primitive-palette-tertiary-30); /* #465066 | ref: 
+primitives.color palettes.tertiary.tertiary30 */
+tokens.css:237:  --color-tertiary-fixed: var(--primitive-palette-tertiary-90); /* #e2efff | ref: primitives.color 
+palettes.tertiary.tertiary90 */
+tokens.css:238:  --color-on-tertiary-fixed: var(--primitive-palette-tertiary-10); /* #1a2337 | ref: primitives.color 
+palettes.tertiary.tertiary10 */
+tokens.css:239:  --color-tertiary-fixed-dim: var(--primitive-palette-tertiary-80); /* #c6d3ec | ref: primitives.color 
+palettes.tertiary.tertiary80 */
+tokens.css:240:  --color-on-tertiary-fixed-variant: var(--primitive-palette-tertiary-30); /* #465066 | ref: 
+primitives.color palettes.tertiary.tertiary30 */
+tokens.css:243:  --color-background: var(--primitive-palette-neutral-98); /* #faf9fc | ref: primitives.color 
+palettes.neutral.neutral98 */
+tokens.css:244:  --color-on-background: var(--primitive-palette-neutral-10); /* #1a1c20 | ref: primitives.color 
+palettes.neutral.neutral10 */
+tokens.css:245:  --color-surface: var(--primitive-palette-neutral-98); /* #faf9fc | ref: primitives.color 
+palettes.neutral.neutral98 */
+tokens.css:246:  --color-on-surface: var(--primitive-palette-neutral-10); /* #1a1c20 | ref: primitives.color 
+palettes.neutral.neutral10 */
+tokens.css:247:  --color-surface-variant: var(--primitive-palette-neutral-variant-90); /* #e6e7f0 | ref: 
+primitives.color palettes.neutral variant.neutralvariant90 */
+tokens.css:248:  --color-on-surface-variant: var(--primitive-palette-neutral-variant-30); /* #494c54 | ref: 
+primitives.color palettes.neutral variant.neutralvariant30 */
+tokens.css:249:  --color-surface-container-lowest: var(--primitive-palette-neutral-100); /* #ffffff | ref: 
+primitives.color palettes.neutral.neutral100 */
+tokens.css:250:  --color-surface-container-low: var(--primitive-palette-neutral-96); /* #f5f3f6 | ref: 
+primitives.color palettes.neutral.neutral96 */
+tokens.css:251:  --color-surface-container: var(--primitive-palette-neutral-94); /* #efeef1 | ref: primitives.color 
+palettes.neutral.neutral94 */
+tokens.css:252:  --color-surface-container-high: var(--primitive-palette-neutral-92); /* #eae8eb | ref: 
+primitives.color palettes.neutral.neutral92 */
+tokens.css:253:  --color-surface-container-highest: var(--primitive-palette-neutral-90); /* #e4e2e5 | ref: 
+primitives.color palettes.neutral.neutral90 */
+tokens.css:254:  --color-surface-bright: var(--primitive-palette-neutral-98); /* #faf9fc | ref: primitives.color 
+palettes.neutral.neutral98 */
+tokens.css:255:  --color-surface-dim: var(--primitive-palette-neutral-87); /* #dbdadd | ref: primitives.color 
+palettes.neutral.neutral87 */
+tokens.css:256:  --color-inverse-surface: var(--primitive-palette-neutral-20); /* #2f3034 | ref: primitives.color 
+palettes.neutral.neutral20 */
+tokens.css:257:  --color-inverse-on-surface: var(--primitive-palette-neutral-95); /* #f2f0f3 | ref: primitives.color 
+palettes.neutral.neutral95 */
+tokens.css:258:  --color-surface-tint: var(--primitive-palette-primary-40); /* #101b2d | ref: primitives.color 
+palettes.primary.primary40 */
+tokens.css:261:  --color-outline: var(--primitive-palette-neutral-variant-50); /* #797c85 | ref: primitives.color 
+palettes.neutral variant.neutralvariant50 */
+tokens.css:262:  --color-outline-variant: var(--primitive-palette-neutral-variant-80); /* #c9cbd5 | ref: 
+primitives.color palettes.neutral variant.neutralvariant80 */
+tokens.css:265:  --color-error: var(--primitive-palette-error-40); /* #ba1a1a | ref: primitives.color 
+palettes.error.error40 */
+tokens.css:266:  --color-on-error: var(--primitive-palette-error-100); /* #ffffff | ref: primitives.color 
+palettes.error.error100 */
+tokens.css:267:  --color-error-container: var(--primitive-palette-error-90); /* #ffdad6 | ref: primitives.color 
+palettes.error.error90 */
+tokens.css:268:  --color-on-error-container: var(--primitive-palette-error-30); /* #93000a | ref: primitives.color 
+palettes.error.error30 */
+tokens.css:269:  --color-warning: var(--primitive-palette-warning-40); /* #7d5700 | ref: primitives.color 
+palettes.warning.warning40 */
+tokens.css:270:  --color-on-warning: var(--primitive-palette-warning-100); /* #ffffff | ref: primitives.color 
+palettes.warning.warning100 */
+tokens.css:271:  --color-warning-container: var(--primitive-palette-warning-95); /* #ffefd6 | ref: primitives.color 
+palettes.warning.warning95 */
+tokens.css:272:  --color-on-warning-container: var(--primitive-palette-warning-30); /* #5f4100 | ref: primitives.color 
+palettes.warning.warning30 */
+tokens.css:273:  --color-succes: var(--primitive-palette-success-40); /* #2e6b3e | ref: primitives.color 
+palettes.success.success40 */
+tokens.css:275:  --color-on-success: var(--primitive-palette-success-100); /* #ffffff | ref: primitives.color 
+palettes.success.success100 */
+tokens.css:276:  --color-success-container: var(--primitive-palette-success-95); /* #c8ffce | ref: primitives.color 
+palettes.success.success95 */
+tokens.css:277:  --color-on-success-container: var(--primitive-palette-success-30); /* #00522a | ref: primitives.color 
+palettes.success.success30 */
+tokens.css:280:  --color-scrim: var(--primitive-palette-neutral-0); /* #000000 | ref: primitives.color 
+palettes.neutral.neutral0 */
+tokens.css:281:  --color-shadow: var(--primitive-palette-primary-40); /* #101b2d | ref: primitives.color 
+palettes.primary.primary40 */
+tokens.css:287:  --effect-soft-shadow: 1.5px 6px 30px 0px rgba(16, 27, 45, 0.149);
+tokens.css:289:  --effect-medium-shadow: 4px 6px 25px 0px rgba(16, 27, 45, 0.2);
+tokens.css:291:  --effect-hard-shadow: 7px 11px 20px 0px rgba(16, 27, 45, 0.2);
+auth-test\README.md:29:| **Primary Brand** | `var(--color-primary)` (`#101b2d`) | Brand logo, active buttons, focus 
+outlines, headings |
+auth-test\README.md:30:| **Primary Container** | `var(--color-primary-container)` (`#bcd2ff`) | Demo chips, status 
+tags, avatars |
+auth-test\README.md:31:| **Secondary Brand** | `var(--color-secondary)` (`#4d586a`) | Sub-headings, active hover 
+states, order IDs |
+auth-test\README.md:32:| **Surfaces** | `var(--color-surface-container-lowest)` (`#ffffff`), `var(--color-background)` 
+(`#faf9fc`) | Card body, inputs, panels |
+auth-test\README.md:33:| **Outlines** | `var(--color-outline-variant)` (`#c9cbd5`) | Input borders, card dividers, 
+subtle tailor stitch accents |
+auth-test\README.md:34:| **Feedback** | `var(--color-error)` (`#ba1a1a`), `var(--color-success)` (`#2e6b3e`) | 
+Accessible validation states, alert banners |
+auth-test\assets\atelier-showcase.jpg:1493:�@�+H�<�TFM� 
+�`��Wr�r�h�-��{|ż3G$Q�UxA���)p��\��-��Aw�XZ��i<֖��#Fa6��rHJ3ꠦ�-��l
+auth-test\assets\atelier-showcase.jpg:4435:v�x��ʓ-%�Ug��B�+`��ؐ#�* �H�24ԧ/u��y;KE��պ���kz����������tZ>�m���}��
+�$9Yg��]��. �Y:�����$[��72IĮ#FeB�*� G$c�UG���P�q��(r�ᢑ]G��ތ>E#'$�~]��x �h�4�.QV�f���-ɨÌ���i�|c��H$�MML<5�
+4��=��k;m��M_}uEB���$����^���ܺw����ڗ�� h�#���7�V�Z�Z���"`�� Q�|�B���68
+docs\design-tokens-guide.md:16:│  e.g., --primitive-palette-primary-40: #101b2d         │
+
+

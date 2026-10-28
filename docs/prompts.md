@@ -1,0 +1,3 @@
+Write a Javascript script that you will use to convert the design system in [evidence%20tokens-complete.json]\(file;file:///c%3A/Users/CECIL/Desktop/Tayhlor/evidence%20tokens-complete.json)  to CSS variables.
+Take note of the primitive colors in the system and the color roles. Using standard system practise, remember that the color roles are what will be used directly on the UI and the primitive will not be used directly on the UI.
+Use CSS variables and ensure that this design system remains the source of truth for UI implementation.\
