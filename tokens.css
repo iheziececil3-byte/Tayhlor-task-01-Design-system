@@ -1,0 +1,568 @@
+/**
+ * ============================================================================
+ * DESIGN SYSTEM CSS TOKENS (AUTOMATICALLY GENERATED - SOURCE OF TRUTH)
+ * ============================================================================
+ * 
+ * Project: Tayhlor — D Williams Fashion Hub Design System
+ * Source File: evidence tokens-complete.json
+ * Generated At: 2026-10-27T11:13:31.088Z
+ * 
+ * ----------------------------------------------------------------------------
+ * ARCHITECTURE & USAGE RULES (CRITICAL):
+ * ----------------------------------------------------------------------------
+ * ⛔ 1. PRIMITIVE COLORS (Tier 1: --primitive-*)
+ *       DO NOT USE DIRECTLY ON UI COMPONENTS.
+ *       These raw tonal steps are system-level variables that feed into semantic roles.
+ * 
+ * ✅ 2. COLOR ROLES (Tier 2: --color-*)
+ *       ALWAYS USE THESE DIRECTLY ON ALL UI COMPONENTS & SCREENS.
+ *       These represent functional design intent (e.g., surface, primary, on-surface).
+ *       Using color roles ensures consistent theming, dark mode, and accessibility.
+ * 
+ * ----------------------------------------------------------------------------
+ * COMPONENT USAGE EXAMPLES:
+ *   button.btn-primary {
+ *     background-color: var(--color-primary);
+ *     color: var(--color-on-primary);
+ *     box-shadow: var(--shadow-soft);
+ *   }
+ *   .card {
+ *     background-color: var(--color-surface);
+ *     color: var(--color-on-surface);
+ *     border: 1px solid var(--color-outline-variant);
+ *   }
+ * ============================================================================
+ */
+
+/* Typography Import: Lora (Editorial Serif for Display/Headlines) + Manrope (Modern Sans for UI) */
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap');
+
+:root {
+  /* ========================================================================
+   * TIER 1: PRIMITIVE KEY COLORS (SYSTEM-LEVEL ONLY — DO NOT USE IN UI)
+   * ======================================================================== */
+  --primitive-key-primary: #101b2d; /* primary key color */
+  --primitive-key-secondary: #425c8a; /* secondary key color */
+  --primitive-key-tertiary: #b3c5e8; /* tertiary key color */
+  --primitive-key-neutral: #1a1c20; /* neutral key color */
+  --primitive-key-neutral-variant: #1d2028; /* neutral variant key color */
+  --primitive-key-error: #ba1a1a; /* error key color */
+  --primitive-key-warning: #7d5700; /* warning key color */
+  --primitive-key-success: #2e6b3e; /* success key color */
+
+  /* ========================================================================
+   * TIER 1: PRIMITIVE COLOR PALETTES (TONAL SCALES 0-100)
+   * ⛔ DO NOT USE DIRECTLY IN UI COMPONENTS.
+   * These provide foundational tonal values for semantic color roles.
+   * ======================================================================== */
+  /* --- Primitive Palette: PRIMARY --- */
+  --primitive-palette-primary-0: #000000;
+  --primitive-palette-primary-10: #091320;
+  --primitive-palette-primary-20: #162438;
+  --primitive-palette-primary-30: #243652;
+  --primitive-palette-primary-40: #101b2d;
+  --primitive-palette-primary-50: #425c8a;
+  --primitive-palette-primary-60: #5d79a8;
+  --primitive-palette-primary-70: #7b97c7;
+  --primitive-palette-primary-80: #9ab6e6;
+  --primitive-palette-primary-90: #bcd2ff;
+  --primitive-palette-primary-95: #dee8ff;
+  --primitive-palette-primary-98: #f3f6ff;
+  --primitive-palette-primary-99: #f8f9ff;
+  --primitive-palette-primary-100: #ffffff;
+
+  /* --- Primitive Palette: SECONDARY --- */
+  --primitive-palette-secondary-0: #000000;
+  --primitive-palette-secondary-10: #0b1525;
+  --primitive-palette-secondary-20: #202a3b;
+  --primitive-palette-secondary-30: #364052;
+  --primitive-palette-secondary-40: #4d586a;
+  --primitive-palette-secondary-50: #657083;
+  --primitive-palette-secondary-60: #7f8a9d;
+  --primitive-palette-secondary-70: #99a4b8;
+  --primitive-palette-secondary-80: #b4bfd4;
+  --primitive-palette-secondary-90: #cfdbf0;
+  --primitive-palette-secondary-95: #dee9ff;
+  --primitive-palette-secondary-98: #f3f6ff;
+  --primitive-palette-secondary-99: #f8f9ff;
+  --primitive-palette-secondary-100: #ffffff;
+
+  /* --- Primitive Palette: TERTIARY --- */
+  --primitive-palette-tertiary-0: #000000;
+  --primitive-palette-tertiary-10: #1a2337;
+  --primitive-palette-tertiary-20: #2f394e;
+  --primitive-palette-tertiary-30: #465066;
+  --primitive-palette-tertiary-40: #5d687f;
+  --primitive-palette-tertiary-50: #768199;
+  --primitive-palette-tertiary-60: #909bb4;
+  --primitive-palette-tertiary-70: #abb7d0;
+  --primitive-palette-tertiary-80: #c6d3ec;
+  --primitive-palette-tertiary-90: #e2efff;
+  --primitive-palette-tertiary-95: #f0f2ff;
+  --primitive-palette-tertiary-98: #fafbff;
+  --primitive-palette-tertiary-99: #fcfbff;
+  --primitive-palette-tertiary-100: #ffffff;
+
+  /* --- Primitive Palette: NEUTRAL --- */
+  --primitive-palette-neutral-0: #000000;
+  --primitive-palette-neutral-4: #0d0e11;
+  --primitive-palette-neutral-6: #111216;
+  --primitive-palette-neutral-10: #1a1c20;
+  --primitive-palette-neutral-12: #1e2024;
+  --primitive-palette-neutral-17: #292b2f;
+  --primitive-palette-neutral-20: #2f3034;
+  --primitive-palette-neutral-22: #333539;
+  --primitive-palette-neutral-24: #383a3e;
+  --primitive-palette-neutral-30: #46474a;
+  --primitive-palette-neutral-40: #5e5e62;
+  --primitive-palette-neutral-50: #77777a;
+  --primitive-palette-neutral-60: #919094;
+  --primitive-palette-neutral-70: #acabae;
+  --primitive-palette-neutral-80: #c7c6c9;
+  --primitive-palette-neutral-87: #dbdadd;
+  --primitive-palette-neutral-90: #e4e2e5;
+  --primitive-palette-neutral-92: #eae8eb;
+  --primitive-palette-neutral-94: #efeef1;
+  --primitive-palette-neutral-95: #f2f0f3;
+  --primitive-palette-neutral-96: #f5f3f6;
+  --primitive-palette-neutral-98: #faf9fc;
+  --primitive-palette-neutral-99: #fbf8fc;
+  --primitive-palette-neutral-100: #ffffff;
+
+  /* --- Primitive Palette: NEUTRAL VARIANT --- */
+  --primitive-palette-neutral-variant-0: #000000;
+  --primitive-palette-neutral-variant-4: #101217;
+  --primitive-palette-neutral-variant-6: #14161b;
+  --primitive-palette-neutral-variant-10: #1d2028;
+  --primitive-palette-neutral-variant-12: #21242c;
+  --primitive-palette-neutral-variant-17: #2c2f37;
+  --primitive-palette-neutral-variant-20: #32353d;
+  --primitive-palette-neutral-variant-22: #363942;
+  --primitive-palette-neutral-variant-24: #3b3e47;
+  --primitive-palette-neutral-variant-30: #494c54;
+  --primitive-palette-neutral-variant-40: #60636c;
+  --primitive-palette-neutral-variant-50: #797c85;
+  --primitive-palette-neutral-variant-60: #93959f;
+  --primitive-palette-neutral-variant-70: #aeb0ba;
+  --primitive-palette-neutral-variant-80: #c9cbd5;
+  --primitive-palette-neutral-variant-87: #dddfe9;
+  --primitive-palette-neutral-variant-90: #e6e7f0;
+  --primitive-palette-neutral-variant-92: #ecedf5;
+  --primitive-palette-neutral-variant-94: #f1f2fa;
+  --primitive-palette-neutral-variant-95: #f4f5fe;
+  --primitive-palette-neutral-variant-96: #f7f8ff;
+  --primitive-palette-neutral-variant-98: #fcfcff;
+  --primitive-palette-neutral-variant-99: #fefbff;
+  --primitive-palette-neutral-variant-100: #ffffff;
+
+  /* --- Primitive Palette: ERROR --- */
+  --primitive-palette-error-0: #000000;
+  --primitive-palette-error-10: #410002;
+  --primitive-palette-error-20: #690005;
+  --primitive-palette-error-30: #93000a;
+  --primitive-palette-error-40: #ba1a1a;
+  --primitive-palette-error-50: #de3730;
+  --primitive-palette-error-60: #ff5449;
+  --primitive-palette-error-70: #ff897d;
+  --primitive-palette-error-80: #ffb4ab;
+  --primitive-palette-error-90: #ffdad6;
+  --primitive-palette-error-95: #ffedea;
+  --primitive-palette-error-98: #fff8f7;
+  --primitive-palette-error-99: #fffbff;
+  --primitive-palette-error-100: #ffffff;
+
+  /* --- Primitive Palette: WARNING --- */
+  --primitive-palette-warning-0: #000000;
+  --primitive-palette-warning-10: #271900;
+  --primitive-palette-warning-20: #422c00;
+  --primitive-palette-warning-30: #5f4100;
+  --primitive-palette-warning-40: #7d5700;
+  --primitive-palette-warning-50: #9d6e00;
+  --primitive-palette-warning-60: #bd8600;
+  --primitive-palette-warning-70: #df9f00;
+  --primitive-palette-warning-80: #ffb945;
+  --primitive-palette-warning-90: #ffdea8;
+  --primitive-palette-warning-95: #ffefd6;
+  --primitive-palette-warning-98: #fff8f1;
+  --primitive-palette-warning-99: #fffbff;
+  --primitive-palette-warning-100: #ffffff;
+
+  /* --- Primitive Palette: SUCCESS --- */
+  --primitive-palette-success-0: #000000;
+  --primitive-palette-success-10: #00210b;
+  --primitive-palette-success-20: #00391c;
+  --primitive-palette-success-30: #00522a;
+  --primitive-palette-success-40: #2e6b3e;
+  --primitive-palette-success-50: #468553;
+  --primitive-palette-success-60: #5fa06b;
+  --primitive-palette-success-70: #7abb84;
+  --primitive-palette-success-80: #95d79e;
+  --primitive-palette-success-90: #b1f4b9;
+  --primitive-palette-success-95: #c8ffce;
+  --primitive-palette-success-98: #ebffe9;
+  --primitive-palette-success-99: #f6fff3;
+  --primitive-palette-success-100: #ffffff;
+
+  /* ========================================================================
+   * TIER 2: COLOR ROLES (SEMANTIC TOKENS — THE SINGLE SOURCE OF TRUTH FOR UI)
+   * ✅ USE THESE VARIABLES DIRECTLY ON ALL UI COMPONENTS.
+   * Each role maps semantic intent to a primitive color variable.
+   * ======================================================================== */
+  /* --- Primary Roles --- */
+  --color-primary: var(--primitive-palette-primary-40); /* #101b2d | ref: primitives.color palettes.primary.primary40 */
+  --color-on-primary: var(--primitive-palette-primary-100); /* #ffffff | ref: primitives.color palettes.primary.primary100 */
+  --color-primary-container: var(--primitive-palette-primary-90); /* #bcd2ff | ref: primitives.color palettes.primary.primary90 */
+  --color-on-primary-container: var(--primitive-palette-primary-30); /* #243652 | ref: primitives.color palettes.primary.primary30 */
+  --color-primary-fixed: var(--primitive-palette-primary-90); /* #bcd2ff | ref: primitives.color palettes.primary.primary90 */
+  --color-on-primary-fixed: var(--primitive-palette-primary-10); /* #091320 | ref: primitives.color palettes.primary.primary10 */
+  --color-primary-fixed-dim: var(--primitive-palette-primary-80); /* #9ab6e6 | ref: primitives.color palettes.primary.primary80 */
+  --color-on-primary-fixed-variant: var(--primitive-palette-primary-30); /* #243652 | ref: primitives.color palettes.primary.primary30 */
+  --color-inverse-primary: var(--primitive-palette-primary-80); /* #9ab6e6 | ref: primitives.color palettes.primary.primary80 */
+
+  /* --- Secondary Roles --- */
+  --color-secondary: var(--primitive-palette-secondary-40); /* #4d586a | ref: primitives.color palettes.secondary.secondary40 */
+  --color-on-secondary: var(--primitive-palette-secondary-100); /* #ffffff | ref: primitives.color palettes.secondary.secondary100 */
+  --color-secondary-container: var(--primitive-palette-secondary-90); /* #cfdbf0 | ref: primitives.color palettes.secondary.secondary90 */
+  --color-on-secondary-container: var(--primitive-palette-primary-30); /* #243652 | ref: primitives.color palettes.primary.primary30 */
+  --color-secondary-fixed: var(--primitive-palette-secondary-90); /* #cfdbf0 | ref: primitives.color palettes.secondary.secondary90 */
+  --color-on-secondary-fixed: var(--primitive-palette-secondary-10); /* #0b1525 | ref: primitives.color palettes.secondary.secondary10 */
+  --color-secondary-fixed-dim: var(--primitive-palette-secondary-80); /* #b4bfd4 | ref: primitives.color palettes.secondary.secondary80 */
+  --color-on-secondary-fixed-variant: var(--primitive-palette-secondary-30); /* #364052 | ref: primitives.color palettes.secondary.secondary30 */
+
+  /* --- Tertiary Roles --- */
+  --color-tertiary: var(--primitive-palette-tertiary-40); /* #5d687f | ref: primitives.color palettes.tertiary.tertiary40 */
+  --color-on-tertiary: var(--primitive-palette-tertiary-100); /* #ffffff | ref: primitives.color palettes.tertiary.tertiary100 */
+  --color-tertiary-container: var(--primitive-palette-tertiary-90); /* #e2efff | ref: primitives.color palettes.tertiary.tertiary90 */
+  --color-on-tertiary-container: var(--primitive-palette-tertiary-30); /* #465066 | ref: primitives.color palettes.tertiary.tertiary30 */
+  --color-tertiary-fixed: var(--primitive-palette-tertiary-90); /* #e2efff | ref: primitives.color palettes.tertiary.tertiary90 */
+  --color-on-tertiary-fixed: var(--primitive-palette-tertiary-10); /* #1a2337 | ref: primitives.color palettes.tertiary.tertiary10 */
+  --color-tertiary-fixed-dim: var(--primitive-palette-tertiary-80); /* #c6d3ec | ref: primitives.color palettes.tertiary.tertiary80 */
+  --color-on-tertiary-fixed-variant: var(--primitive-palette-tertiary-30); /* #465066 | ref: primitives.color palettes.tertiary.tertiary30 */
+
+  /* --- Surfaces & Backgrounds --- */
+  --color-background: var(--primitive-palette-neutral-98); /* #faf9fc | ref: primitives.color palettes.neutral.neutral98 */
+  --color-on-background: var(--primitive-palette-neutral-10); /* #1a1c20 | ref: primitives.color palettes.neutral.neutral10 */
+  --color-surface: var(--primitive-palette-neutral-98); /* #faf9fc | ref: primitives.color palettes.neutral.neutral98 */
+  --color-on-surface: var(--primitive-palette-neutral-10); /* #1a1c20 | ref: primitives.color palettes.neutral.neutral10 */
+  --color-surface-variant: var(--primitive-palette-neutral-variant-90); /* #e6e7f0 | ref: primitives.color palettes.neutral variant.neutralvariant90 */
+  --color-on-surface-variant: var(--primitive-palette-neutral-variant-30); /* #494c54 | ref: primitives.color palettes.neutral variant.neutralvariant30 */
+  --color-surface-container-lowest: var(--primitive-palette-neutral-100); /* #ffffff | ref: primitives.color palettes.neutral.neutral100 */
+  --color-surface-container-low: var(--primitive-palette-neutral-96); /* #f5f3f6 | ref: primitives.color palettes.neutral.neutral96 */
+  --color-surface-container: var(--primitive-palette-neutral-94); /* #efeef1 | ref: primitives.color palettes.neutral.neutral94 */
+  --color-surface-container-high: var(--primitive-palette-neutral-92); /* #eae8eb | ref: primitives.color palettes.neutral.neutral92 */
+  --color-surface-container-highest: var(--primitive-palette-neutral-90); /* #e4e2e5 | ref: primitives.color palettes.neutral.neutral90 */
+  --color-surface-bright: var(--primitive-palette-neutral-98); /* #faf9fc | ref: primitives.color palettes.neutral.neutral98 */
+  --color-surface-dim: var(--primitive-palette-neutral-87); /* #dbdadd | ref: primitives.color palettes.neutral.neutral87 */
+  --color-inverse-surface: var(--primitive-palette-neutral-20); /* #2f3034 | ref: primitives.color palettes.neutral.neutral20 */
+  --color-inverse-on-surface: var(--primitive-palette-neutral-95); /* #f2f0f3 | ref: primitives.color palettes.neutral.neutral95 */
+  --color-surface-tint: var(--primitive-palette-primary-40); /* #101b2d | ref: primitives.color palettes.primary.primary40 */
+
+  /* --- Outlines & Borders --- */
+  --color-outline: var(--primitive-palette-neutral-variant-50); /* #797c85 | ref: primitives.color palettes.neutral variant.neutralvariant50 */
+  --color-outline-variant: var(--primitive-palette-neutral-variant-80); /* #c9cbd5 | ref: primitives.color palettes.neutral variant.neutralvariant80 */
+
+  /* --- Feedback & Status (Error, Warning, Success) --- */
+  --color-error: var(--primitive-palette-error-40); /* #ba1a1a | ref: primitives.color palettes.error.error40 */
+  --color-on-error: var(--primitive-palette-error-100); /* #ffffff | ref: primitives.color palettes.error.error100 */
+  --color-error-container: var(--primitive-palette-error-90); /* #ffdad6 | ref: primitives.color palettes.error.error90 */
+  --color-on-error-container: var(--primitive-palette-error-30); /* #93000a | ref: primitives.color palettes.error.error30 */
+  --color-warning: var(--primitive-palette-warning-40); /* #7d5700 | ref: primitives.color palettes.warning.warning40 */
+  --color-on-warning: var(--primitive-palette-warning-100); /* #ffffff | ref: primitives.color palettes.warning.warning100 */
+  --color-warning-container: var(--primitive-palette-warning-95); /* #ffefd6 | ref: primitives.color palettes.warning.warning95 */
+  --color-on-warning-container: var(--primitive-palette-warning-30); /* #5f4100 | ref: primitives.color palettes.warning.warning30 */
+  --color-succes: var(--primitive-palette-success-40); /* #2e6b3e | ref: primitives.color palettes.success.success40 */
+  --color-success: var(--primitive-palette-success-40); /* Alias for spelling consistency */
+  --color-on-success: var(--primitive-palette-success-100); /* #ffffff | ref: primitives.color palettes.success.success100 */
+  --color-success-container: var(--primitive-palette-success-95); /* #c8ffce | ref: primitives.color palettes.success.success95 */
+  --color-on-success-container: var(--primitive-palette-success-30); /* #00522a | ref: primitives.color palettes.success.success30 */
+
+  /* --- Overlay & Elevation Elements --- */
+  --color-scrim: var(--primitive-palette-neutral-0); /* #000000 | ref: primitives.color palettes.neutral.neutral0 */
+  --color-shadow: var(--primitive-palette-primary-40); /* #101b2d | ref: primitives.color palettes.primary.primary40 */
+
+  /* ========================================================================
+   * ELEVATION & SHADOW EFFECTS
+   * Pre-configured elevation levels for modals, cards, popovers, and buttons.
+   * ======================================================================== */
+  --effect-soft-shadow: 1.5px 6px 30px 0px rgba(16, 27, 45, 0.149);
+  --shadow-soft: var(--effect-soft-shadow);
+  --effect-medium-shadow: 4px 6px 25px 0px rgba(16, 27, 45, 0.2);
+  --shadow-medium: var(--effect-medium-shadow);
+  --effect-hard-shadow: 7px 11px 20px 0px rgba(16, 27, 45, 0.2);
+  --shadow-hard: var(--effect-hard-shadow);
+
+  /* ========================================================================
+   * TYPOGRAPHY TOKENS (FONT FAMILIES, SCALES, WEIGHTS, LINE HEIGHTS)
+   * ======================================================================== */
+  --font-family-display: 'Lora', Georgia, 'Times New Roman', serif;
+  --font-family-body: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Style: display large */
+  --type-display-large-font-family: var(--font-family-display);
+  --type-display-large-font-size: 64px;
+  --type-display-large-font-weight: 600;
+  --type-display-large-line-height: 89.6px;
+  --type-display-large-letter-spacing: -2.24px;
+
+  /* Style: display medium */
+  --type-display-medium-font-family: var(--font-family-display);
+  --type-display-medium-font-size: 48px;
+  --type-display-medium-font-weight: 600;
+  --type-display-medium-line-height: 67.2px;
+  --type-display-medium-letter-spacing: -1.44px;
+
+  /* Style: display small */
+  --type-display-small-font-family: var(--font-family-display);
+  --type-display-small-font-size: 40px;
+  --type-display-small-font-weight: 600;
+  --type-display-small-line-height: 56px;
+  --type-display-small-letter-spacing: -1px;
+
+  /* Style: headline large */
+  --type-headline-large-font-family: var(--font-family-display);
+  --type-headline-large-font-size: 34px;
+  --type-headline-large-font-weight: 500;
+  --type-headline-large-line-height: 47.6px;
+  --type-headline-large-letter-spacing: -0.51px;
+
+  /* Style: headline medium */
+  --type-headline-medium-font-family: var(--font-family-display);
+  --type-headline-medium-font-size: 28px;
+  --type-headline-medium-font-weight: 600;
+  --type-headline-medium-line-height: 39.2px;
+  --type-headline-medium-letter-spacing: -0.476px;
+
+  /* Style: headline small */
+  --type-headline-small-font-family: var(--font-family-display);
+  --type-headline-small-font-size: 24px;
+  --type-headline-small-font-weight: 500;
+  --type-headline-small-line-height: 33.6px;
+  --type-headline-small-letter-spacing: -0.192px;
+
+  /* Style: title large */
+  --type-title-large-font-family: var(--font-family-body);
+  --type-title-large-font-size: 22px;
+  --type-title-large-font-weight: 500;
+  --type-title-large-line-height: 30.8px;
+  --type-title-large-letter-spacing: -0.55px;
+
+  /* Style: title medium */
+  --type-title-medium-font-family: var(--font-family-body);
+  --type-title-medium-font-size: 16px;
+  --type-title-medium-font-weight: 500;
+  --type-title-medium-line-height: 22.4px;
+  --type-title-medium-letter-spacing: -0.4px;
+
+  /* Style: title small */
+  --type-title-small-font-family: var(--font-family-body);
+  --type-title-small-font-size: 14px;
+  --type-title-small-font-weight: 500;
+  --type-title-small-line-height: 19.6px;
+  --type-title-small-letter-spacing: -0.35px;
+
+  /* Style: body large */
+  --type-body-large-font-family: var(--font-family-body);
+  --type-body-large-font-size: 16px;
+  --type-body-large-font-weight: 500;
+  --type-body-large-line-height: 22.4px;
+  --type-body-large-letter-spacing: -0.24px;
+
+  /* Style: body medium */
+  --type-body-medium-font-family: var(--font-family-body);
+  --type-body-medium-font-size: 14px;
+  --type-body-medium-font-weight: 500;
+  --type-body-medium-line-height: 19.6px;
+  --type-body-medium-letter-spacing: -0.21px;
+
+  /* Style: body small */
+  --type-body-small-font-family: var(--font-family-body);
+  --type-body-small-font-size: 12px;
+  --type-body-small-font-weight: 500;
+  --type-body-small-line-height: 16.8px;
+  --type-body-small-letter-spacing: -0.048px;
+
+  /* Style: label large */
+  --type-label-large-font-family: var(--font-family-body);
+  --type-label-large-font-size: 14px;
+  --type-label-large-font-weight: 500;
+  --type-label-large-line-height: 19.6px;
+  --type-label-large-letter-spacing: -0.014px;
+
+  /* Style: label medium */
+  --type-label-medium-font-family: var(--font-family-body);
+  --type-label-medium-font-size: 12px;
+  --type-label-medium-font-weight: 500;
+  --type-label-medium-line-height: 16.8px;
+  --type-label-medium-letter-spacing: -0.06px;
+
+  /* Style: label small */
+  --type-label-small-font-family: var(--font-family-body);
+  --type-label-small-font-size: 11px;
+  --type-label-small-font-weight: 500;
+  --type-label-small-line-height: 15.4px;
+  --type-label-small-letter-spacing: -0.055px;
+
+}
+
+/* ==========================================================================
+ * UI UTILITY CLASSES (DRIVEN EXCLUSIVELY BY COLOR ROLES & TYPOGRAPHY)
+ * Use these utility classes across components for consistent styling.
+ * ========================================================================== */
+
+/* Background Color Utilities */
+.bg-primary                { background-color: var(--color-primary) !important; }
+.bg-primary-container      { background-color: var(--color-primary-container) !important; }
+.bg-secondary              { background-color: var(--color-secondary) !important; }
+.bg-secondary-container    { background-color: var(--color-secondary-container) !important; }
+.bg-tertiary               { background-color: var(--color-tertiary) !important; }
+.bg-tertiary-container     { background-color: var(--color-tertiary-container) !important; }
+.bg-background             { background-color: var(--color-background) !important; }
+.bg-surface                { background-color: var(--color-surface) !important; }
+.bg-surface-variant        { background-color: var(--color-surface-variant) !important; }
+.bg-surface-container-low  { background-color: var(--color-surface-container-low) !important; }
+.bg-surface-container      { background-color: var(--color-surface-container) !important; }
+.bg-surface-container-high { background-color: var(--color-surface-container-high) !important; }
+.bg-surface-container-highest { background-color: var(--color-surface-container-highest) !important; }
+.bg-error                  { background-color: var(--color-error) !important; }
+.bg-error-container        { background-color: var(--color-error-container) !important; }
+.bg-warning                { background-color: var(--color-warning) !important; }
+.bg-warning-container      { background-color: var(--color-warning-container) !important; }
+.bg-success                { background-color: var(--color-success, var(--color-succes)) !important; }
+.bg-success-container      { background-color: var(--color-success-container) !important; }
+
+/* Text / Foreground Color Utilities */
+.text-primary              { color: var(--color-primary) !important; }
+.text-on-primary           { color: var(--color-on-primary) !important; }
+.text-on-primary-container { color: var(--color-on-primary-container) !important; }
+.text-secondary            { color: var(--color-secondary) !important; }
+.text-on-secondary         { color: var(--color-on-secondary) !important; }
+.text-on-secondary-container { color: var(--color-on-secondary-container) !important; }
+.text-tertiary             { color: var(--color-tertiary) !important; }
+.text-on-tertiary          { color: var(--color-on-tertiary) !important; }
+.text-on-tertiary-container { color: var(--color-on-tertiary-container) !important; }
+.text-on-background        { color: var(--color-on-background) !important; }
+.text-on-surface           { color: var(--color-on-surface) !important; }
+.text-on-surface-variant   { color: var(--color-on-surface-variant) !important; }
+.text-error                { color: var(--color-error) !important; }
+.text-on-error             { color: var(--color-on-error) !important; }
+.text-warning              { color: var(--color-warning) !important; }
+.text-on-warning           { color: var(--color-on-warning) !important; }
+.text-success              { color: var(--color-success, var(--color-succes)) !important; }
+.text-on-success           { color: var(--color-on-success) !important; }
+
+/* Border & Outline Utilities */
+.border-outline            { border-color: var(--color-outline) !important; }
+.border-outline-variant    { border-color: var(--color-outline-variant) !important; }
+.border-primary            { border-color: var(--color-primary) !important; }
+
+/* Shadow Utilities */
+.shadow-soft               { box-shadow: var(--shadow-soft) !important; }
+.shadow-medium             { box-shadow: var(--shadow-medium) !important; }
+.shadow-hard               { box-shadow: var(--shadow-hard) !important; }
+
+/* Typography Classes */
+.display-large {
+  font-family: var(--type-display-large-font-family);
+  font-size: var(--type-display-large-font-size);
+  font-weight: var(--type-display-large-font-weight);
+  line-height: var(--type-display-large-line-height);
+  letter-spacing: var(--type-display-large-letter-spacing);
+}
+.display-medium {
+  font-family: var(--type-display-medium-font-family);
+  font-size: var(--type-display-medium-font-size);
+  font-weight: var(--type-display-medium-font-weight);
+  line-height: var(--type-display-medium-line-height);
+  letter-spacing: var(--type-display-medium-letter-spacing);
+}
+.display-small {
+  font-family: var(--type-display-small-font-family);
+  font-size: var(--type-display-small-font-size);
+  font-weight: var(--type-display-small-font-weight);
+  line-height: var(--type-display-small-line-height);
+  letter-spacing: var(--type-display-small-letter-spacing);
+}
+.headline-large {
+  font-family: var(--type-headline-large-font-family);
+  font-size: var(--type-headline-large-font-size);
+  font-weight: var(--type-headline-large-font-weight);
+  line-height: var(--type-headline-large-line-height);
+  letter-spacing: var(--type-headline-large-letter-spacing);
+}
+.headline-medium {
+  font-family: var(--type-headline-medium-font-family);
+  font-size: var(--type-headline-medium-font-size);
+  font-weight: var(--type-headline-medium-font-weight);
+  line-height: var(--type-headline-medium-line-height);
+  letter-spacing: var(--type-headline-medium-letter-spacing);
+}
+.headline-small {
+  font-family: var(--type-headline-small-font-family);
+  font-size: var(--type-headline-small-font-size);
+  font-weight: var(--type-headline-small-font-weight);
+  line-height: var(--type-headline-small-line-height);
+  letter-spacing: var(--type-headline-small-letter-spacing);
+}
+.title-large {
+  font-family: var(--type-title-large-font-family);
+  font-size: var(--type-title-large-font-size);
+  font-weight: var(--type-title-large-font-weight);
+  line-height: var(--type-title-large-line-height);
+  letter-spacing: var(--type-title-large-letter-spacing);
+}
+.title-medium {
+  font-family: var(--type-title-medium-font-family);
+  font-size: var(--type-title-medium-font-size);
+  font-weight: var(--type-title-medium-font-weight);
+  line-height: var(--type-title-medium-line-height);
+  letter-spacing: var(--type-title-medium-letter-spacing);
+}
+.title-small {
+  font-family: var(--type-title-small-font-family);
+  font-size: var(--type-title-small-font-size);
+  font-weight: var(--type-title-small-font-weight);
+  line-height: var(--type-title-small-line-height);
+  letter-spacing: var(--type-title-small-letter-spacing);
+}
+.body-large {
+  font-family: var(--type-body-large-font-family);
+  font-size: var(--type-body-large-font-size);
+  font-weight: var(--type-body-large-font-weight);
+  line-height: var(--type-body-large-line-height);
+  letter-spacing: var(--type-body-large-letter-spacing);
+}
+.body-medium {
+  font-family: var(--type-body-medium-font-family);
+  font-size: var(--type-body-medium-font-size);
+  font-weight: var(--type-body-medium-font-weight);
+  line-height: var(--type-body-medium-line-height);
+  letter-spacing: var(--type-body-medium-letter-spacing);
+}
+.body-small {
+  font-family: var(--type-body-small-font-family);
+  font-size: var(--type-body-small-font-size);
+  font-weight: var(--type-body-small-font-weight);
+  line-height: var(--type-body-small-line-height);
+  letter-spacing: var(--type-body-small-letter-spacing);
+}
+.label-large {
+  font-family: var(--type-label-large-font-family);
+  font-size: var(--type-label-large-font-size);
+  font-weight: var(--type-label-large-font-weight);
+  line-height: var(--type-label-large-line-height);
+  letter-spacing: var(--type-label-large-letter-spacing);
+}
+.label-medium {
+  font-family: var(--type-label-medium-font-family);
+  font-size: var(--type-label-medium-font-size);
+  font-weight: var(--type-label-medium-font-weight);
+  line-height: var(--type-label-medium-line-height);
+  letter-spacing: var(--type-label-medium-letter-spacing);
+}
+.label-small {
+  font-family: var(--type-label-small-font-family);
+  font-size: var(--type-label-small-font-size);
+  font-weight: var(--type-label-small-font-weight);
+  line-height: var(--type-label-small-line-height);
+  letter-spacing: var(--type-label-small-letter-spacing);
+}
