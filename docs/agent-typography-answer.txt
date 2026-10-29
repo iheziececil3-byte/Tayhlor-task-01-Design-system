@@ -1,0 +1,27 @@
+Tayhlor — Agent Typography Answer
+Evidence file: 08-agent-typography-answer.txt
+
+Recorded typography finding (from the prior chat, 28 October 2026)
+
+The heading selector `.brand-title` did not use a named typography style. It used:
+
+    font-family: var(--font-family-display, 'Lora', serif);
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+
+No line-height was specified.
+
+The closest named style in the design system was `headline-medium`, with these values:
+
+    Font family: Lora
+    Font size: 28px
+    Font weight: 600
+    Line height: 39.2px
+    Letter spacing: -0.476px
+
+Finding:
+The heading's font size and weight matched `headline-medium`, but the implementation used a hardcoded font size and weight, a positive letter-spacing value rather than the token's negative value, and no explicit line-height. Therefore, the heading was not fully compliant with the named typography token.
+
+Note on source fidelity:
+This file reconstructs the recorded finding from the prior chat's archived summary. The complete verbatim original agent response was not available in the retrieved context, so this file must not be described as a verbatim transcript.

@@ -1,0 +1,20 @@
+Tayhlor — Git Branch Evidence
+Evidence file: 12-git-log-branch-unmerged.txt
+
+Recorded Git state (from the prior chat, 28 October 2026)
+
+Command/result recorded:
+
+    * 3ef075a (HEAD -> task-1-step-8-regression, master)
+
+Interpretation recorded at the time:
+- `task-1-step-8-regression` and `master` both pointed to commit `3ef075a`.
+- The regression changes were uncommitted.
+- Later, the command `git branch -D task-1-step-8-regression` reported:
+
+    Deleted branch task-1-step-8-regression (was 3ef075a).
+
+- After that deletion, `master` remained.
+
+Important evidence limitation:
+This is the Git output preserved in the prior chat's archived summary, not a complete raw `git log` transcript. The exact original command and full terminal output were not available in the retrieved context. Do not label this as the full unedited command output unless you retrieve it from the original terminal/log.
