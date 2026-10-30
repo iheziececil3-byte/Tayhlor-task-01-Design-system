@@ -16,8 +16,7 @@ Most customers are assumed to use smartphones on mobile data of variable quality
 
 ## The One Thing That Must Work
 
-Customers must be able to obtain trustworthy answers based on approved business information and access reliable information about the status of their own orders without seeing anyone else's. The application must not invent answers, order statuses or dates.
-
+Allow a customer to submit a clothing order, receive the tailor’s acceptance or rejection and proposed completion timeframe, and proceed to payment only after the tailor accepts the order.
 ## Three Recurring Questions
 
 1. **“Can you be able to do it?”** Customers want to know whether Williams can make their requested garment or design. Answers must reflect his verified capabilities.
