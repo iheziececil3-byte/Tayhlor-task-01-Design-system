@@ -137,6 +137,7 @@ Tayhlor-specific:
 .agents/rules/data-model.md: record ownership, money units, snapshots, audit (PRD 8.5, 9.4).
 .agents/rules/faq-assistant.md: FAQ pipeline, citations, decline text, vector rules, evaluation (PRD 7, 9, 10).
 .agents/rules/privacy.md: privacy notice, Gemini free-tier disclosure, export and deletion, retention (FR-72, FR-73, PRD 9.6, Q8, Q13).
+.agents/rules/jobs.md: background and scheduled jobs, idempotency, payment re-checks, daily reconciliation, async email dispatch, document indexing (PRD 8.3, Q9, Sec 12).
 Until a rules file exists, the PRD is the source. Success metrics (Section 12) and risks (Section 13) stay in the PRD.
 
 Self-check
