@@ -14,10 +14,10 @@ One job: define order statuses, allowed moves, acceptance, decline, completion, 
   Why: PRD 8.4 defines these states. The agent must not add others.
 - ORD-02: Allowed moves: SUBMITTED to ACCEPTED, DECLINED, or CANCELLED. ACCEPTED to IN_PROGRESS or CANCELLED. IN_PROGRESS to READY_FOR_COLLECTION. READY_FOR_COLLECTION to COMPLETED. Any other move is refused. DECLINED, COMPLETED, and CANCELLED are final. The move to IN_PROGRESS also needs a successful deposit.
   Why: PRD 8.4 and FR-33 define the moves. PRD 8.4 says work starts only after the deposit.
-- ORD-03: Every status change records the actor, the time, the previous status, the new status, and an optional note.
+- ORD-03: Every status change records the actor attribution (`actorType`: `USER` with user ID, or `SYSTEM` with null user ID and source reference in note), the time, the previous status, the new status, and an optional note.
   Why: PRD FR-33 and FR-71 require this record.
-- ORD-04: OPEN: the actor recorded for automatic changes, such as payment webhooks and scheduled jobs.
-  Why: The PRD does not say. The status event record requires an actor, so an automatic change cannot be saved until this is decided.
+- ORD-04: Automated changes (such as Paystack webhooks and scheduled jobs) record `actorType = SYSTEM` and `actorId = NULL`. The originating system reference (e.g. Paystack webhook event ID or reconciliation job name) is recorded in `note` without sensitive data. Dummy system user records are prohibited. Idempotent processing ensures repeated webhooks do not trigger duplicate events or transitions.
+  Why: Resolves Issue 7; eliminates fake users while maintaining full auditability and idempotency.
 
 ## 2. Acceptance and decline
 
@@ -30,8 +30,10 @@ One job: define order statuses, allowed moves, acceptance, decline, completion, 
 
 ## 3. Completion
 
-- ORD-08: COMPLETED requires a successful balance payment and a recorded fitting collection. OPEN: how the fitting is recorded.
-  Why: PRD 8.4 and FR-33 require both. The PRD does not say how the fitting is recorded.
+- ORD-08: COMPLETED requires server-side validation that: 1) balance payment is SUCCESSFUL, and 2) a fitting has been recorded by the tailor with outcome SATISFACTORY in the dedicated `Fitting` model. A fitting marked ALTERATIONS_REQUIRED does not satisfy completion.
+  Why: Resolves Issue 10; PRD 8.4 and FR-33 require verified balance and satisfactory fitting collection.
+- ORD-16: OPEN: the alteration workflow after an ALTERATIONS_REQUIRED fitting (how alteration tasks are tracked, whether order status remains READY_FOR_COLLECTION or loops, and customer notifications). No unofficial statuses or automatic transitions may be introduced.
+  Why: Issue 10; alterations management is not defined in the PRD and remains open for owner decision.
 
 ## 4. Cancellation
 

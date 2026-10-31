@@ -82,18 +82,18 @@ Order rules
 Statuses: SUBMITTED, ACCEPTED, DECLINED, IN_PROGRESS, READY_FOR_COLLECTION, COMPLETED, CANCELLED.
 Allowed moves: SUBMITTED to ACCEPTED, DECLINED, or CANCELLED. ACCEPTED to IN_PROGRESS, then READY_FOR_COLLECTION, then COMPLETED. ACCEPTED can also move to CANCELLED under the cancellation rules. No other moves are allowed (PRD 8.4, FR-33).
 On acceptance, the tailor enters the exact quoted total and a proposed completion date, both required (FR-31). On decline, the tailor enters a reason the customer sees (FR-32).
-COMPLETED needs a successful balance and a recorded fitting collection (PRD 8.4). The PRD does not say how fitting is recorded. Ask the owner.
+COMPLETED needs a verified balance payment and a recorded fitting with outcome SATISFACTORY in the dedicated Fitting model (PRD 8.4, 8.5). A fitting marked ALTERATIONS_REQUIRED does not satisfy completion. The alteration workflow remains open.
 Customer cancellation: allowed while SUBMITTED, with no payment involved. Allowed while ACCEPTED with a successful deposit, with a full refund (PRD 8.4). Cancelling an ACCEPTED order with no deposit is undecided, because FR-22 and PRD 8.4 differ. Ask the owner. Cancelling after work starts is not allowed (PRD Q3).
 Tailor cancellation: the PRD allows it with a reason. The rule is open (PRD 4.2, Q2). Use the working assumption in Open questions until the owner decides.
 Customers see status, quoted total, and proposed completion date for their own orders only (FR-21).
-Every order status change and payment event is logged with actor, time, and previous and new value. Logs are append-only (FR-33, FR-71).
+Every order status change and payment event is logged with actor attribution (USER with user ID, or SYSTEM with null user ID and source reference in note), time, and previous and new value. Logs are append-only (FR-33, FR-71).
 Measurements, accounts, and privacy
 Measurement values are in centimetres (FR-10). Working assumption for the standard fields: chest, waist, hip, shoulder, sleeve, inseam, and length (PRD Q7).
 Each order keeps a snapshot of its measurements. Later edits or deletions do not change it (FR-20).
 Sign-up collects full name, email, phone, and password, or uses Google. A duplicate email shows a clear message. A Google account links to an existing account only after confirmation (FR-01). Passwords are stored as a salted hash.
 Unverified customers can sign in only to verify. Google sign-ins count as verified by Google (FR-05). Password reset links are single-use (FR-03).
 A privacy notice appears at sign-up and in the footer. It states that order and payment data stay in the app, and that document text and FAQ questions go to Google. Check its wording against Google's terms before launch (FR-73).
-On the Gemini free tier, Google may use the content to improve its products, and human reviewers may read it. The owner decides before a real-customer pilot whether to stay on the free tier (PRD Q13). Retention rules are undecided (PRD Q8).
+On the Gemini free tier, Google may use the content to improve its products, and human reviewers may read it. The owner decides before a real-customer pilot whether to stay on the free tier (PRD Q13). Category-based retention and deletion policy applies; specific retention periods require owner approval and legal review (PRD Q8).
 FAQ assistant rules
 Answers come only from approved documents. Draft documents are never used (FR-61, FR-64). Every answer names its source document (FR-61).
 Editing an approved document returns it to DRAFT and removes its chunks from search until the owner approves it again (FR-64, PRD 9.4).
@@ -109,7 +109,7 @@ Quoted total: the exact price the tailor enters on acceptance. The app never set
 Proposed completion date: the date the tailor enters on acceptance (FR-31).
 Payment unlocked: the payment option is shown, because the rules in Payment rules are met.
 Work begins: the order moves to IN_PROGRESS (PRD 8.4).
-Fitting: the customer comes to the shop to collect the garment for fitting. The tailor records it before COMPLETED. How it is recorded is undecided.
+Fitting: a dedicated record (model Fitting) captured by the tailor with outcome SATISFACTORY or ALTERATIONS_REQUIRED. Completion requires a satisfactory fitting. Subsequent fittings may be recorded. Alteration workflow remains undecided (open).
 Deposit: the first payment, 70% of the quoted total, paid before work begins.
 Balance: the second payment, the quoted total minus the deposit (30%), paid after the garment is ready and collected for fitting.
 Payment: one deposit or balance attempt, with status PENDING, SUCCESSFUL, FAILED, or REFUNDED.
@@ -118,7 +118,7 @@ Measurement snapshot: a copy of a customer's measurements stored with an order a
 Approved document: a FAQ source the tailor wrote or uploaded and approved. Other documents are DRAFT.
 Chunk: a passage of an approved document, split by heading and then paragraph, stored with its document title (PRD 9.3).
 Decline response: the fixed reply under FAQ assistant rules.
-Audit log: an append-only record of every order status change and payment event (FR-71).
+Audit log: an append-only record of every order status change (with USER or SYSTEM attribution) and payment event (FR-71). Preserved upon account deletion; actor references anonymised.
 Priority: P0 (required for launch), P1 (should have), P2 (later). The PRD defines no product tiers. "Free tier" refers only to the Google Gemini API.
 Rules files (.agents/rules/)
 Non-negotiable (every project):
@@ -158,9 +158,10 @@ Q3 Customer cancellation after work starts: not allowed.
 Q4 Manual refund timeframe: see PRD Q4.
 Q5 Gemini model for answers: confirmed at build time.
 Q6 Sign-in library: Auth.js.
-Q8 Data retention and deletion: set in the privacy notice before the pilot.
+Q8 Data retention and deletion: category-based policy adopted; statutory retention periods subject to owner approval and Nigerian legal review.
 Q9 Scheduled job frequency: frequent if the Vercel plan allows, otherwise hourly.
 Q11 Business model: undecided. Working assumption: portfolio scope, no revenue.
 Q12 PostgreSQL provider: undecided. Any Vercel Marketplace PostgreSQL offering with pgvector is a candidate.
-Q13 Gemini embedding model, output size, and free or paid tier: free tier for the build. Output size per PRD Q13.
-Not numbered: how fitting is recorded; cancelling an ACCEPTED order with no deposit; how far to build the provider adapter; which event switches to live keys; password hashing algorithm; orchestration choice; migrations folder; rules file names.
+Q13 Gemini embedding model, output dimension, and free or paid tier: free tier for the build; candidate models verified (gemini-embedding-001 with MRL 768/1536/3072 or text-embedding-004 at 768), model and dimension choice open (PRD Q13).
+Q14 Alteration workflow: tracking alteration progress and order statuses after an ALTERATIONS_REQUIRED fitting is open.
+Not numbered: cancelling an ACCEPTED order with no deposit; how far to build the provider adapter; which event switches to live keys; password hashing algorithm; orchestration choice; migrations folder; rules file names.

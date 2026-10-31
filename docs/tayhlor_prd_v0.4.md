@@ -190,8 +190,8 @@ Tailoring businesses coordinate most orders through direct contact. The brief de
 | ID | Requirement | Priority | Acceptance Criteria |
 |---|---|---|---|
 | FR-70 | Customers access only their own records. | P0 | Automated tests confirm that requests for another customer's order, measurement, or payment return 404 or 403. |
-| FR-71 | Every order status change and payment event is logged. | P0 | Log stores actor, timestamp, previous and new value. Logs are append-only. |
-| FR-72 | Customers can request export or deletion of their personal data. | P1 | Request is fulfilled within the timeframe set by the privacy notice (see Open Questions). |
+| FR-71 | Every order status change and payment event is logged. | P0 | Log stores actor attribution (`actorType`: USER with user ID, or SYSTEM with null ID and source reference), timestamp, previous and new value. Logs are append-only and immutable. |
+| FR-72 | Customers can request export or deletion of their personal data. | P1 | Fulfilled under a category-based retention and deletion policy: personal profile details are anonymised or deleted once active orders reach a terminal state (COMPLETED/CANCELLED); financial and order records are preserved for statutory compliance with direct personal identifiers minimised; standalone measurements are deleted while order snapshots are retained; append-only audit events are preserved with anonymised actor references; and backup restores re-apply deletions from a tombstone log. Specific retention periods are OPEN for owner and legal review under Nigerian law (Section 14 Q8). |
 | FR-73 | A privacy notice states that order and payment data stay in the app, and that document text and FAQ questions are sent to Google for embeddings and answer generation. If the Gemini free tier is used (Q13), the notice also states that Google may use that content to improve its products. | P0 | The notice is visible at sign-up and in the footer. Its wording is checked against Google's terms in effect before launch. |
 
 ---
@@ -221,7 +221,7 @@ The assistant uses retrieval-augmented generation (RAG). It answers only from ta
 | Component | Decision | Status |
 |---|---|---|
 | Language model | Google Gemini on the Gemini API free tier. Requirements: low latency, support for system instructions, and acceptable cost per conversation. Specific model confirmed at build time (Q5). | Provider decided. Model open (Q5). |
-| Embedding model | Google Gemini embedding model on the Gemini API free tier. Working assumption: 1536 dimensions (Q13). | Provider decided. Model and dimension open (Q13). |
+| Embedding model | Google Gemini embedding model on the Gemini API free tier (candidate models: `gemini-embedding-001` or `text-embedding-004`). Requires `RETRIEVAL_DOCUMENT` for chunks and `RETRIEVAL_QUERY` for questions. Column size matches verified model dimension. | Provider decided. Model and dimension open (Q13). |
 | Orchestration | Vercel AI SDK or a thin custom layer in Next.js route handlers. | Proposed |
 | Evaluation | A test set of 50 questions for the shop covering answerable, unanswerable, and trap questions. | Proposed |
 
@@ -305,7 +305,8 @@ Payment and cancellation rules that sit on top of the state machine:
 - **Start work (IN_PROGRESS)** requires a successful deposit.
 - **Customer cancellation:** A customer may cancel an ACCEPTED order before it enters IN_PROGRESS. If no successful payment exists, the order is cancelled without a refund. If a successful deposit exists, the customer is entitled to a full refund of the amount paid, processed manually according to the approved refund procedure. Once an order enters IN_PROGRESS, customer-initiated cancellation is no longer allowed.
 - **Balance** is payable when status is READY_FOR_COLLECTION and the deposit has succeeded.
-- **COMPLETED** requires a successful balance and a recorded fitting collection by the tailor.
+- **COMPLETED** requires both: 1) a verified balance payment (status SUCCESSFUL confirmed server-side), and 2) a recorded collection and fitting by the tailor with outcome SATISFACTORY in the dedicated `Fitting` model. A fitting marked ALTERATIONS_REQUIRED does not satisfy completion.
+- **Alterations:** When a fitting records ALTERATIONS_REQUIRED, an order cannot be COMPLETED until alterations are made and a subsequent fitting is recorded as SATISFACTORY. The specific alteration workflow (how alteration stages are tracked, order status transitions, and customer notifications) is OPEN (Section 14 Q14).
 - **Refunds** after cancellation are full refunds of the amount paid, processed manually in v1.
 
 ### 8.5 Prisma Data Model
@@ -327,6 +328,11 @@ enum Role {
   TAILOR
 }
 
+enum ActorType {
+  USER
+  SYSTEM
+}
+
 enum OrderStatus {
   SUBMITTED
   ACCEPTED
@@ -335,6 +341,11 @@ enum OrderStatus {
   READY_FOR_COLLECTION
   COMPLETED
   CANCELLED
+}
+
+enum FittingOutcome {
+  SATISFACTORY
+  ALTERATIONS_REQUIRED
 }
 
 enum PaymentType {
@@ -384,6 +395,7 @@ model User {
   measurements      Measurement[]
   customerOrders    Order[]            @relation("CustomerOrders")
   statusEvents      OrderStatusEvent[]
+  recordedFittings  Fitting[]          @relation("RecordedFittings")
   assistantMessages AssistantMessage[]
 }
 
@@ -421,6 +433,7 @@ model Order {
   measurement          Measurement?       @relation(fields: [measurementId], references: [id], onDelete: SetNull)
   statusEvents         OrderStatusEvent[]
   payments             Payment[]
+  fittings             Fitting[]
 
   @@index([businessId, status])
   @@index([customerId])
@@ -429,14 +442,37 @@ model Order {
 model OrderStatusEvent {
   id          String       @id @default(cuid())
   orderId     String
-  actorId     String
+  actorType   ActorType    @default(USER)
+  actorId     String?      // required for USER events; MUST be null for SYSTEM events
   fromStatus  OrderStatus?
   toStatus    OrderStatus
-  note        String?
+  note        String?      // stores user notes or system origin (e.g. Paystack webhook event ID)
   createdAt   DateTime     @default(now())
 
   order       Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  actor       User         @relation(fields: [actorId], references: [id])
+  actor       User?        @relation(fields: [actorId], references: [id])
+
+  // Application validation & database CHECK constraint enforce:
+  // (actorType = 'USER' AND actorId IS NOT NULL) OR (actorType = 'SYSTEM' AND actorId IS NULL)
+
+  @@index([orderId])
+  @@index([actorId])
+}
+
+model Fitting {
+  id          String         @id @default(cuid())
+  orderId     String
+  recordedBy  String         // User.id of the tailor who recorded the fitting
+  outcome     FittingOutcome
+  notes       String?
+  fittedAt    DateTime       // date and time the fitting took place
+  createdAt   DateTime       @default(now())
+
+  order       Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  recorder    User           @relation("RecordedFittings", fields: [recordedBy], references: [id])
+
+  @@index([orderId])
+  @@index([recordedBy])
 }
 
 model Payment {
@@ -477,7 +513,7 @@ model KnowledgeChunk {
   businessId String
   chunkIndex Int
   content    String
-  embedding  Unsupported("vector(1536)")?  // working assumption for the Gemini model (Q13)
+  embedding  Unsupported("vector")? // Exact dimension matches confirmed Gemini embedding model configuration (OPEN, Q13)
 
   document   BusinessDocument       @relation(fields: [documentId], references: [id], onDelete: Cascade)
   business   Business               @relation(fields: [businessId], references: [id])
@@ -506,6 +542,10 @@ model AssistantMessage {
 - `Order.measurementSnapshot` keeps the measurements used for each order, so later changes to a customer's record do not alter an order.
 - Monetary values are stored as integers in minor units (kobo) to avoid rounding errors.
 - Google-only accounts have no `passwordHash`. Email and password accounts stay unverified until `emailVerifiedAt` is set.
+- `OrderStatusEvent.actorType` distinguishes human-initiated actions (`USER`, requiring a valid `actorId`) from automated and third-party actions (`SYSTEM`, requiring `actorId` to be null). System event triggers (e.g. Paystack webhook event ID) are recorded in `note`.
+- Customer account deletion does not cascade to `Order`, `Payment`, or `OrderStatusEvent` records. Personal profile data is anonymised while preserving primary keys to maintain referential integrity, financial audit trails, and append-only event logs.
+- `Fitting` tracks individual fitting sessions per order with outcomes `SATISFACTORY` or `ALTERATIONS_REQUIRED`. `COMPLETED` requires a verified balance payment and a fitting outcome of `SATISFACTORY`. Alteration workflows are OPEN.
+- The `KnowledgeChunk.embedding` column dimension must match the confirmed Google Gemini embedding model output dimension (OPEN, Q13). Pre-storage dimension validation is enforced.
 
 ---
 
@@ -518,7 +558,7 @@ The vector store holds embeddings of tailor-approved business documents. It lets
 ### 9.2 Architecture
 
 - **Engine:** PostgreSQL with the `pgvector` extension, in the same database as the application data. One database means one set of backups and one access-control model.
-- **Embeddings:** Google Gemini embedding model on the free tier. Working assumption: 1536-dimension vectors (Q13). The app requests that output dimension explicitly so it matches the column. Changing the model or dimension later requires re-embedding all approved documents and a schema migration.
+- **Embeddings:** Google Gemini embedding model on the free tier (model and dimension OPEN, see Section 14 Q13; candidate models: `gemini-embedding-001` with native dimension 3072 and Matryoshka output_dimensionality of 1536 or 768, or `text-embedding-004` with native dimension 768). Document chunks are indexed with `task_type="RETRIEVAL_DOCUMENT"`, and user questions are embedded with `task_type="RETRIEVAL_QUERY"`. The PostgreSQL `vector` column must match the verified output dimension. The application must validate embedding vector dimensions before storage. Changing the model or dimension requires re-embedding all approved documents and a schema migration. Zero-padding or silent truncation of vectors is strictly prohibited.
 - **Index:** HNSW index on the `embedding` column, using cosine distance. HNSW is suitable at this scale and does not need periodic rebuilding.
 - **Scale assumption:** The shop has tens to low hundreds of documents, producing a few thousand chunks at most. Performance is not a constraint at this volume.
 
@@ -536,7 +576,7 @@ The vector store holds embeddings of tailor-approved business documents. It lets
 | Tailor approves a document | Chunk, embed, and write chunks. Delete old chunks for that document. |
 | Tailor edits an approved document | Document returns to DRAFT. Its chunks are removed from search immediately. |
 | Tailor deletes a document | Cascade delete removes its chunks. |
-| Embedding model changes | Re-embed all approved documents. Vector dimension change requires a migration. |
+| Embedding model changes | Re-embed all approved documents using the new compatible configuration. Vector dimension change requires a migration before searches can be performed. |
 
 Only chunks whose parent document is APPROVED are eligible for retrieval. The query filters on both `businessId` and document status.
 
@@ -575,7 +615,7 @@ CREATE INDEX IF NOT EXISTS knowledge_chunk_embedding_hnsw
 | businessId | text | Denormalised for filtering |
 | chunkIndex | integer | Position within the document; unique per document |
 | content | text | Chunk text, including the document title as a prefix |
-| embedding | vector(1536) | Working assumption. Must match the Gemini output dimension chosen in Q13 |
+| embedding | vector(dim) | Exact dimension matches confirmed Gemini embedding model configuration (OPEN, Q13; candidate dimensions: 768, 1536, 3072). Validated pre-storage. |
 
 ### 10.3 Retrieval Query (Pseudocode)
 
@@ -641,7 +681,7 @@ Targets marked "proposed" should be confirmed in a pilot. Set baselines before l
 | Tailors do not adopt the workflow | Medium | High | Pilot with one shop, run onboarding sessions, keep tailor actions to a few taps |
 | Dispute over when the balance is due | Low | Medium | State balance terms clearly on each order and in the FAQ: balance after the garment is ready and collected for fitting |
 | Scope exceeds the bootcamp timeline | High | High | Build P0 items first; defer P1 and P2 |
-| Personal data handled without a clear policy | Medium | High | Publish a privacy notice (FR-73), collect only necessary data, define retention and deletion rules (see Open Questions) |
+| Personal data handled without a clear policy | Medium | High | Category-based retention/deletion policy; anonymise personal data upon request while preserving statutory financial/audit records and relational integrity; handle backup expiration and restore re-application via tombstone logs; specific retention periods open for legal review (Q8) |
 | Free tier terms let Google use submitted content, and free tier requests are rate limited | Medium | Medium | Disclose free tier use in the privacy notice (FR-73); decide the tier before the pilot (Q13); retry rate-limited requests during indexing |
 
 ---
@@ -659,14 +699,15 @@ These must be answered before build or pilot. Each has a working assumption that
 | 5 | Which Gemini model writes FAQ answers? | Google Gemini on the same free tier as embeddings (Q13). The specific model is confirmed at build time against the requirements: low latency (FR-60) and support for system instructions. Free tier terms in Q13 apply to answer generation. |
 | 6 | Which authentication library or approach is used? | Auth.js with email and password and Google, plus a verification step owned by the app. |
 | 7 | Which measurements are captured for each garment type? | Standard set: chest, waist, hip, shoulder, sleeve, inseam, length |
-| 8 | How long is personal data kept, and how are deletion requests handled? | To be set in the privacy notice before the pilot. |
+| 8 | How long is personal data kept, and how are deletion requests handled? | Category-based retention and deletion policy adopted: customer profile data is anonymised upon verified request when all orders are terminal; financial and order records are preserved for statutory compliance with direct personal identifiers minimised; standalone measurements are deleted while order snapshots are retained; append-only audit events are preserved with anonymised actor references; backups expire on schedule and database restores re-apply deletions from a tombstone log. Specific statutory retention periods remain OPEN pending owner approval and legal review under applicable Nigerian law (NDPA 2023, CAMA). |
 | 9 | How often do scheduled jobs run, given the Vercel plan? | Every 15 minutes if the plan allows it, otherwise hourly. |
 | 10 | Is delivery of finished garments needed in v1? | No. Collection for fitting only. |
 | 11 | What is the business model? | Undecided. Working assumption: bootcamp portfolio scope with no revenue. |
 | 12 | Which PostgreSQL provider sits behind Vercel? | Undecided. Any PostgreSQL offering from Vercel's Marketplace that supports pgvector is a candidate. The choice sets the exact connection variable names and the Prisma adapter. |
-| 13 | Which Gemini embedding model and output dimension are used, and should the pilot stay on the free tier? | Free tier for the build, as the owner chose. Working assumption: output dimension 1536, matching the current column. The model name is confirmed on Google's model list at build time. Free tier content may be used by Google to improve its products and may be read by human reviewers. Before the pilot with real customers, decide whether to stay on the free tier or move to the paid tier, which Google states does not use prompts to improve its products. |
+| 13 | Which Gemini embedding model and output dimension are used, and should the pilot stay on the free tier? | OPEN. Free tier for the build. Verified candidates from Google documentation: 1) `gemini-embedding-001` (default 3072 dimensions, supports Matryoshka output_dimensionality of 1536 or 768); 2) `text-embedding-004` (native 768 dimensions). Document indexing requires `task_type="RETRIEVAL_DOCUMENT"` and queries require `task_type="RETRIEVAL_QUERY"`. The previous 1536 assumption carried over from OpenAI is deprecated; the exact Gemini model, configured output dimension, and matching pgvector column size must be chosen by the owner before finalising migration or storing vectors. Moving to the paid tier before a real-customer pilot remains open. |
+| 14 | How is alteration work initiated, tracked, and transitioned after an ALTERATIONS_REQUIRED fitting? | OPEN. The `Fitting` model records multiple fittings with outcomes SATISFACTORY or ALTERATIONS_REQUIRED. An outcome of ALTERATIONS_REQUIRED blocks order completion until a subsequent fitting is SATISFACTORY. The internal workflow for tracking alteration stages, whether order status remains READY_FOR_COLLECTION or loops, and customer notifications during alterations remain open for owner decision. |
 
-**Decided since v0.1 (for reference):** single shop, not multi-tenant (formerly Q6); Paystack only, Flutterwave after the pilot (formerly Q8); currency NGN (formerly Q7); PostgreSQL hosted through Vercel (formerly Q10); the specific provider is open (see Q12); deposit required before work starts and balance required before COMPLETED (formerly Q3 and Q4); tailor sets the exact quoted total (formerly Q2); email for notifications (formerly Q12); tailor is the admin who writes and approves FAQ documents (formerly Q16); no reference images in v1 (formerly Q14); Google Gemini free tier for embeddings, replacing OpenAI text-embedding-3-small (v0.4; model and dimension open, see Q13); Google Gemini free tier for FAQ answers (v0.4; model open, see Q5); email verification required; Google sign-in included.
+**Decided since v0.1 (for reference):** single shop, not multi-tenant (formerly Q6); Paystack only, Flutterwave after the pilot (formerly Q8); currency NGN (formerly Q7); PostgreSQL hosted through Vercel (formerly Q10); the specific provider is open (see Q12); deposit required before work starts and balance required before COMPLETED (formerly Q3 and Q4); tailor sets the exact quoted total (formerly Q2); email for notifications (formerly Q12); tailor is the admin who writes and approves FAQ documents (formerly Q16); no reference images in v1 (formerly Q14); Google Gemini free tier for embeddings, replacing OpenAI text-embedding-3-small (v0.4; model and dimension open, see Q13); Google Gemini free tier for FAQ answers (v0.4; model open, see Q5); email verification required; Google sign-in included; dedicated `Fitting` model with outcomes SATISFACTORY / ALTERATIONS_REQUIRED before COMPLETED; `actorType` enum (USER, SYSTEM) for audit event attribution; category-based data retention and deletion policy.
 
 ---
 
@@ -677,3 +718,4 @@ These must be answered before build or pilot. Each has a working assumption that
 | 0.1 | 29 October 2026 | Cecil Ihezie | First draft from the refined product idea and stack decisions |
 | 0.3 | 30 October 2026 | Cecil Ihezie | Single shop, Paystack only, PostgreSQL through Vercel with pooled and direct connection strings, one database with manual migrations, email verification and Google sign-in, deposit and balance timing, full refund on cancellation after payment, OpenAI embeddings, Resend email, refreshed open questions |
 | 0.4 | 30 October 2026 | Cecil Ihezie | Embeddings changed from OpenAI text-embedding-3-small to Google Gemini free tier. Updated header, FR-73, Sections 7.3, 8.1, 8.2, 8.5, 9.2, 9.5, 9.6, 10.2, 13, 14 (Q5, new Q13) and the decided list. Gemini chosen for FAQ answers (Q5). Dimension kept at 1536 as a working assumption. |
+| 0.5 | 31 October 2026 | Cecil Ihezie | Resolved cross-examination issues 7-10: actorType enum (USER/SYSTEM) and webhook attribution; category-based retention, deletion and backup policy; verified Gemini embedding models and task types with dimension OPEN; dedicated Fitting model and completion criteria with alteration workflow OPEN. |

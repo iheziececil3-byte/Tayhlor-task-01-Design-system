@@ -58,8 +58,8 @@ Terms in this file:
   Why: PRD FR-64 and 9.4 require it.
 - FAQ-17: Deleting a document removes its chunks.
   Why: PRD 9.4 requires it.
-- FAQ-18: A change of embedding model requires re-embedding all approved documents. A change of vector size is covered by DAT-08.
-  Why: PRD 9.4 requires the re-embedding.
+- FAQ-18: A change of embedding model or dimension requires re-embedding all approved documents using the new compatible configuration. The vector column size in PostgreSQL MUST match the verified model output dimension (DAT-08). Embeddings MUST use compatible task types: `task_type="RETRIEVAL_DOCUMENT"` for document chunks, and `task_type="RETRIEVAL_QUERY"` for user question searches. Embedding dimensions MUST be validated before storage; zero-padding or silent truncation of vectors is prohibited.
+  Why: Resolves Issue 9; PRD 9.2, 9.4, and official Google Gemini API embedding requirements.
 - FAQ-19: Rate-limited requests during indexing are retried. OPEN: the retry count and delay.
   Why: PRD Section 13 names rate limits as a risk. The PRD sets no retry limits.
 
@@ -67,8 +67,8 @@ Terms in this file:
 
 - FAQ-20: Every question is logged with the answer, the source chunk IDs, and a grounded flag.
   Why: PRD 7.1 step 7 requires it for review.
-- FAQ-21: Confirm exact Gemini model names against Google's model list before writing them in code. Do not guess a model name.
-  Why: PRD Q5 and Q13 leave model names open until build time.
+- FAQ-21: Confirm exact Gemini model names against Google's model list before writing them in code. Do not guess a model name. Verified embedding candidates: `gemini-embedding-001` (default 3072 dimensions, supports MRL 1536 or 768) and `text-embedding-004` (native 768 dimensions). The specific model and configured dimension remain OPEN (PRD Q13) until approved by the owner.
+  Why: PRD Q5 and Q13 leave specific model configurations open until approved by the owner.
 
 ## 6. Performance and testing
 
