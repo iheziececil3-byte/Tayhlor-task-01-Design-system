@@ -32,7 +32,8 @@ Scope: Database integrity, schema changes, migrations, and safe database access.
 ## Database provider
 
 - PostgreSQL with pgvector is the proposed database technology.
-- The database hosting provider remains OPEN until the owner confirms it.
+- The database hosting provider is Vercel Postgres with pgvector (decided by owner, PRD Q12).
+- The provider supports connection pooling for application runtime queries (POSTGRES_URL) and direct unpooled connections for Prisma migrations and CLI operations (POSTGRES_PRISMA_URL / POSTGRES_URL_NON_POOLING).
 - The database provider MUST support the required PostgreSQL and pgvector functionality before implementation is finalized.
 
 ## Scope boundary

@@ -40,7 +40,7 @@ Source: PRD 5.2, 6.5.
 Stack
 Framework: Next.js with the App Router and TypeScript. Locked.
 ORM: Prisma. Locked.
-Database: PostgreSQL with pgvector, hosted through Vercel. The provider is undecided (PRD Q12).
+Database: PostgreSQL with pgvector, hosted on Vercel Postgres (decided by owner, PRD Q12).
 The v1 application uses one PostgreSQL database for development, test, preview, and production activity, as specified by the PRD. Test-data safeguards are mandatory: test records must be explicitly identifiable with a recordEnvironment marker that propagates to all related records (orders, payments, audit events); test operations must not modify, delete, or impersonate real customer records; test payment credentials must not be used to initiate transactions against real customer payment records; and test data must not be presented as genuine customer activity.
 Runtime queries use a pooled connection. Migrations and the Prisma CLI use a direct connection (PRD 8.2).
 Hosting: Vercel for the app and preview deployments.
@@ -162,7 +162,7 @@ Q6 Sign-in library: Auth.js.
 Q8 Data retention and deletion: category-based policy adopted; statutory retention periods subject to owner approval and Nigerian legal review.
 Q9 Scheduled job frequency: frequent if the Vercel plan allows, otherwise hourly.
 Q11 Business model: undecided. Working assumption: portfolio scope, no revenue.
-Q12 PostgreSQL provider: undecided. Any Vercel Marketplace PostgreSQL offering with pgvector is a candidate.
+Q12 PostgreSQL provider: Decided by owner: Vercel Postgres (with pgvector). Runtime queries use pooled connection (POSTGRES_URL); migrations and Prisma CLI use direct connection (POSTGRES_PRISMA_URL / POSTGRES_URL_NON_POOLING).
 Q13 Gemini embedding model, output dimension, and free or paid tier: free tier for the build; candidate models verified (gemini-embedding-001 with MRL 768/1536/3072 or text-embedding-004 at 768), model and dimension choice open (PRD Q13).
 Q14 Alteration workflow: tracking alteration progress and order statuses after an ALTERATIONS_REQUIRED fitting is open.
 Not numbered: cancelling an ACCEPTED order with no deposit; how far to build the provider adapter; which event switches to live keys; password hashing algorithm; orchestration choice; migrations folder; rules file names.

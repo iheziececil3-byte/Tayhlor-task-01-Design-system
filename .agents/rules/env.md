@@ -38,7 +38,12 @@ The following configuration categories are expected:
 
 Exact environment variable names MUST follow the confirmed database provider and selected integrations.
 
-The database provider remains OPEN until the owner confirms it.
+The database provider is confirmed as Vercel Postgres (decided by owner, PRD Q12).
+Exact environment variable names for Vercel Postgres:
+- `POSTGRES_URL`: Pooled runtime database connection string (secret, server-side only).
+- `POSTGRES_PRISMA_URL`: Connection string configured with pgBouncer pooling for Prisma (secret, server-side only).
+- `POSTGRES_URL_NON_POOLING`: Direct unpooled connection string for Prisma CLI and migration operations (secret, server-side only).
+- `POSTGRES_USER`, `POSTGRES_HOST`, `POSTGRES_PASSWORD`, `POSTGRES_DATABASE`: Individual connection credentials (secret, server-side only).
 
 ## Security boundary
 
