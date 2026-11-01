@@ -1,0 +1,21 @@
+                                                  404-resolved# 404 and Blank Page Recovery
+
+## Diagnosis performed
+
+I investigated the issue before asking the coding agent for help.
+
+1. Checked the URL entered in the browser.
+2. Found that I had added `/auth` to the URL.
+3. Checked the application routes under `src/app`.
+4. Confirmed that the requested `/auth` route did not exist.
+5. Identified the incorrect URL as the cause of the 404 response.
+
+## Recovery
+
+I removed `/auth` from the URL and returned to the correct application address.
+
+The issue was caused by an incorrect URL, not a failure in the application itself.
+
+## Conclusion
+
+I diagnosed and resolved the issue by correcting the URL without changing application code.

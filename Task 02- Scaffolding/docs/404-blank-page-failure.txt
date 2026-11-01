@@ -1,0 +1,17 @@
+                                               404-blank-page-failure
+
+> tayhlor@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+ ✓ Ready in 10.1s
+ ○ Compiling / ...
+ ✓ Compiled / in 24.9s (464 modules)
+ GET / 200 in 29371ms
+ ✓ Compiled in 4.4s (241 modules)
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 5.5s (452 modules)
+ GET /auth 404 in 9804ms

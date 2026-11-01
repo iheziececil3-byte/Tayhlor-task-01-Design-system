@@ -1,0 +1,24 @@
+                                                               port-conflict-resolved
+
+Command used for finding the process ID 
+
+PS C:\Users\CECIL\Desktop\Tayhlor> taskkill /PID 10732 /F
+SUCCESS: The process with PID 10732 has been terminated.
+PS C:\Users\CECIL\Desktop\Tayhlor> netstat -ano | findstr :3001
+PS C:\Users\CECIL\Desktop\Tayhlor> netstat -ano | findstr :3001
+PS C:\Users\CECIL\Desktop\Tayhlor> netstat -ano | findstr :3000
+  TCP    0.0.0.0:3000           0.0.0.0:0              LISTENING       2404
+  TCP    [::]:3000              [::]:0                 LISTENING       2404
+PS C:\Users\CECIL\Desktop\Tayhlor> taskkill /PID 2404 /F
+SUCCESS: The process with PID 2404 has been terminated.
+PS C:\Users\CECIL\Desktop\Tayhlor> netstat -ano | findstr :3000
+PS C:\Users\CECIL\Desktop\Tayhlor> npm run dev
+
+> tayhlor@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+ ✓ Ready in 10.1s

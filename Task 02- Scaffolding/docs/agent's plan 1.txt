@@ -1,0 +1,437 @@
+Analyzed Readme.md:L1-68
+Analyzed business-brief.md:L1-30
+Analyzed color-roles.md:L1-100
+Analyzed type-scale.md:L1-100
+Analyzed shadows.md:L1-48
+Analyzed tokens.css:L1-100
+Analyzed tokens.css:L170-300
+Analyzed tokens.css:L301-450
+Ran check git status
+Checked task Check git status
+Ran list directory contents
+Checked task List directory contents
+Ran inspect Task 02 directory
+Ran check Task 02 contents
+Checked task Check Task 02 contents
+Analyzed .gitignore:L1-53
+Analyzed tokens.css:L1-100
+Analyzed tokens.css:L101-250
+Analyzed tokens.css:L251-400
+Analyzed tokens.css:L401-568
+Ran check node and npm versions · Exited with code 1
+Checked task Check node and npm versions
+Canceled check npm.cmd version
+Checked task Check npm.cmd version
+Checked task Check npm.cmd version
+Checked task Check npm.cmd version
+Killed task Check npm.cmd version
+Ran check npm.cmd alone
+Checked task Check npm.cmd alone
+
+# Tayhlor: Project Scaffolding and Foundation Setup
+## Stage 1 Review: Understanding Summary & Implementation Proposal
+
+As a senior software engineer and product designer, I have conducted an exhaustive review of the repository, including the authoritative Product Requirements Document (`tayhlor_prd_v0.4.md`), the core directives in [`AGENTS.md`](file:///c:/Users/CECIL/Desktop/Tayhlor/AGENTS.md), all 12 rule specifications in [`.agents/rules/`](file:///c:/Users/CECIL/Desktop/Tayhlor/.agents/rules/), the workflows in [`.agents/skills/`](file:///c:/Users/CECIL/Desktop/Tayhlor/.agents/skills/), and the design system tokens and documentation in [`Task-01-design-system/`](file:///c:/Users/CECIL/Desktop/Tayhlor/Task-01-design-system/).
+
+Below is the structured summary of understanding, the proposed file creation plan, and the identified assumptions and open items. **In accordance with the Approval Gate (Prompt Sections 2 & 6), no files have been created or modified, and implementation will commence only upon your explicit approval.**
+
+---
+
+### 1. Structured Summary of Understanding
+
+#### 1.1 Product Understanding
+- **What Tayhlor is**: A single-tenant web application dedicated to one bespoke tailoring business: **D Williams Fashion Hub** (PRD Section 1, 4.2). It centralizes customer profiles, precise body measurements, bespoke clothing orders, two-stage deposit/balance payments, and order progress tracking.
+- **The Problem It Addresses**: Replaces chaotic manual processes—lost physical measurement notes, undocumented verbal agreements, unverified bank payments, and repetitive manual customer status inquiries ("is my garment ready?")—with an accountable, single-source-of-truth digital workflow.
+- **Intended Users**:
+  1. **Customer**: Adults (ages 18–75) in Nigeria and the diaspora, accessing the platform primarily on smartphones over mobile cellular connections. Customers register, verify email, maintain custom measurement records, submit orders, pay a 70% deposit upon tailor acceptance, pay the 30% balance upon collection for fitting, track live status, request personal data export/deletion, and ask business questions via an AI FAQ assistant grounded exclusively in tailor-approved documents.
+  2. **Tailor (Admin)**: The artisan and shop owner (who is also the developer). The tailor manages the incoming order queue, reviews measurement snapshots, sets exact quoted prices (in NGN kobo) and proposed completion dates, updates order statuses (`IN_PROGRESS`, `READY_FOR_COLLECTION`, `COMPLETED`), logs fitting outcomes (`SATISFACTORY` or `ALTERATIONS_REQUIRED`), records customer contact edits, manages approved FAQ documents, monitors Paystack payments, and logs manual refunds.
+
+#### 1.2 Technical Direction
+- **Framework**: Next.js with App Router, TypeScript, and React (Locked per PRD 8.1).
+- **ORM & Database**: Prisma ORM with PostgreSQL and `pgvector` hosted through Vercel Marketplace. Pooled connection for runtime queries; direct connection for Prisma CLI/migrations (PRD 8.2). All data models enforce the mandatory `recordEnvironment` safeguard to isolate test activity from genuine customer data.
+- **Styling Architecture**: Tailwind CSS mapped directly to Tayhlor's Tier 2 semantic CSS design tokens.
+- **Typography Integration**: `next/font/google` loading Google Fonts `Lora` (Editorial Serif for Display/Headlines) and `Manrope` (Modern Sans for UI Title/Body/Label) with zero layout shift and local pre-loading.
+- **Payments**: Paystack in test mode (NGN stored as integer kobo). 70% deposit and 30% balance calculated server-side. Verification via server-side API and HMAC SHA-512 webhooks (browser redirects never confirm payment). Flutterwave deferred.
+- **Communications**: Resend API for transactional notifications (active only with verified domain).
+- **Authentication**: Auth.js (NextAuth v5) supporting credentials (Argon2id password hashing) and Google sign-in.
+- **AI FAQ Grounding**: Google Gemini API for embeddings and generation; cosine similarity retrieval against approved `FAQChunk` records. Strict fallback decline text when unverified.
+- **Tooling Environment**: Node.js `v24.19.0`, npm `11.17.0` (using `npm.cmd` on Windows due to PowerShell execution policy).
+
+#### 1.3 Project Structure
+The project foundation will be established in the workspace root with standard Next.js App Router conventions:
+- `src/app/`: Root layout, font definitions, metadata, and root home page (`page.tsx`).
+- `src/styles/`: The design system tokens (`tokens.css`) and global Tailwind root bindings (`globals.css`).
+- `src/lib/`: Essential helper utilities (such as `cn` class merging for Tailwind).
+- `prisma/`: Authoritative, reconciled schema (`schema.prisma`) matching PRD 8.5 without applying migrations.
+- Root configuration: `package.json`, `tsconfig.json`, `next.config.mjs`, `tailwind.config.ts`, `postcss.config.mjs`, `.env.example`, `.gitignore`.
+
+#### 1.4 Design Direction
+- **Brand Identity**: "Elegant, rich, and refined" aesthetic tailored for bespoke artisan craftsmanship (D Williams Fashion Hub).
+- **Token Architecture (Material Design 3 two-tier structure)**:
+  - **Tier 1 (Primitives)**: System-level palette steps (e.g. `--primitive-palette-primary-40: #101b2d`). Never applied directly to UI components.
+  - **Tier 2 (Color Roles / Semantic Tokens)**: The mandatory source of truth for UI:
+    - Primary: `--color-primary` (`#101b2d` navy), `--color-on-primary` (`#ffffff`), `--color-primary-container` (`#bcd2ff`).
+    - Secondary: `--color-secondary` (`#4d586a`), `--color-on-secondary` (`#ffffff`).
+    - Surfaces: `--color-surface` (`#faf9fc`), `--color-on-surface` (`#1a1c20`), `--color-surface-container` (`#efeef1`), `--color-surface-container-high` (`#eae8eb`).
+    - Outlines: `--color-outline` (`#797c85`), `--color-outline-variant` (`#c9cbd5`).
+  - **Typography (15 styles across 5 categories)**:
+    - *Display & Headlines*: `Lora` serif (`display-large`, `headline-medium`, etc.).
+    - *Title, Body & Labels*: `Manrope` sans (`title-large`, `body-large`, `label-medium`, etc.).
+  - **Elevation & Shadows**: Tinted navy drop shadows:
+    - `--shadow-soft`: `1.5px 6px 30px 0px rgba(16, 27, 45, 0.149)`
+    - `--shadow-medium`: `4px 6px 25px 0px rgba(16, 27, 45, 0.2)`
+    - `--shadow-hard`: `7px 11px 20px 0px rgba(16, 27, 45, 0.2)`
+
+#### 1.5 Project Constraints
+- **Database & Command Safety (`command.md`, `database.md`)**:
+  - `CMD-02`, `CMD-03`: No `prisma migrate dev/deploy`, `prisma db push`, `prisma db seed`, or destructive SQL commands will be executed without explicit owner approval.
+  - Read-only schema inspection and migration preparation are allowed; live database changes are strictly owner-applied.
+- **Git Repository & Single Branch Mandate (`git.md` + User Directive)**:
+  - Only one branch (`main`) exists in the workspace per your explicit directive (*"we should only have one branch which is the main, do not create another branch without my consent in this workspace"*). All work is verified on `main`.
+  - Remote is linked to `https://github.com/iheziececil3-byte/Tayhlor-task-01-Design-system.git`.
+- **Security & Authorization (`security.md`)**:
+  - Multi-tenant isolation at application level: every query filters by `businessId` from session; customer queries filter by `userId`.
+  - Card details are never stored (Paystack references only).
+- **Scope Limits (`requirements.md`)**:
+  - Responsive web only; no native mobile apps.
+  - No image uploads for style references (PRD 5.2).
+  - No automated refunds (tailor processes manually in Paystack).
+
+#### 1.6 Scaffolding Scope (What Is Built Now vs. Unimplemented)
+- **Included in this Scaffold Task**:
+  1. Base Next.js App Router and TypeScript project configuration.
+  2. Tailwind CSS configuration mapping fonts, colors, and shadows directly to Tayhlor's design tokens.
+  3. Design system CSS token integration (`tokens.css` and `globals.css`).
+  4. Root layout with Google Fonts (`Lora` and `Manrope`) via `next/font/google`.
+  5. Minimal home screen demonstrating visual compliance: brand identity ("D Williams Fashion Hub"), Lora editorial headline typography, Manrope UI typography, semantic surface hierarchy (`bg-surface`, `bg-surface-container`), and soft/medium shadow elevation cards.
+  6. Authoritative Prisma schema foundation (`prisma/schema.prisma`) reflecting the audited data models (unapplied to database).
+  7. Verification: Successful dependency installation, production build (`npm run build`), type-check, and server startup test.
+- **Explicitly Unimplemented (Deferred to Feature Tasks)**:
+  - No authentication, login screens, or Auth.js session handlers.
+  - No customer order submission forms or measurement CRUD interfaces.
+  - No tailor order queue, price quote inputs, or fitting outcome forms.
+  - No Paystack payment initialization or webhook route handlers.
+  - No Resend email triggers or background reconciliation cron jobs.
+  - No Gemini API integrations, vector indexing, or FAQ assistant endpoints.
+  - No database migration application.
+
+#### 1.7 Conflicts, Gaps, and Open Questions
+- **Previous Contradictions**: Fully reconciled in the repository during Cross-Examination Issues 7–10 (PRD v0.4 doc control, `recordEnvironment` test safeguard, `Fitting` outcome model, and `jobs.md`).
+- **Standing Open Questions & Working Assumptions (PRD Section 14)**:
+  - *Q1 (Balance Payment)*: Paystack online payment with manual recording fallback.
+  - *Q2 (Tailor Cancellation)*: Allowed with reason and full manual refund.
+  - *Q3 (Customer Cancellation)*: Forbidden once order moves to `IN_PROGRESS`.
+  - *Q4 (Manual Refund Window)*: 5–10 business days SLA.
+  - *Q5 & Q13 (Gemini Models & Vector Dimension)*: Free tier build; candidate models `gemini-embedding-001` or `text-embedding-004` (768 dimensions).
+  - *Q6 (Sign-in Library)*: Auth.js.
+  - *Q8 (Data Retention)*: Category-based policy adopted; statutory retention periods subject to Nigerian legal review.
+  - *Q9 (Scheduled Job Frequency)*: Hourly on Vercel Hobby, frequent cron on Pro.
+  - *Q12 (PostgreSQL Provider)*: Candidate provider on Vercel Marketplace with pgvector.
+  - *Q14 (Alteration Tracking)*: Post-fitting alteration workflow details open.
+
+---
+
+### 2. Proposed File Creation Plan
+
+| File Path | Purpose | Why Necessary for the Scaffold |
+| :--- | :--- | :--- |
+| [`package.json`](file:///c:/Users/CECIL/Desktop/Tayhlor/package.json) | Project manifest, scripts (`dev`, `build`, `start`, `lint`), dependencies (`next`, `react`, `react-dom`, `clsx`, `tailwind-merge`, `@prisma/client`) and devDependencies (`typescript`, `@types/react`, `@types/node`, `tailwindcss`, `postcss`, `autoprefixer`, `prisma`). | Core Node.js runtime and build definition for Next.js and Tailwind. |
+| [`tsconfig.json`](file:///c:/Users/CECIL/Desktop/Tayhlor/tsconfig.json) | TypeScript compiler configuration (strict mode, App Router plugin, `@/*` path mapping). | Required for Next.js App Router compile-time type safety and module aliasing. |
+| [`next.config.mjs`](file:///c:/Users/CECIL/Desktop/Tayhlor/next.config.mjs) | Next.js runtime configuration. | Configures Next.js App Router build pipeline and compiler behavior. |
+| [`postcss.config.mjs`](file:///c:/Users/CECIL/Desktop/Tayhlor/postcss.config.mjs) | PostCSS configuration loading `tailwindcss` and `autoprefixer`. | Required for Tailwind CSS stylesheet processing in Next.js. |
+| [`tailwind.config.ts`](file:///c:/Users/CECIL/Desktop/Tayhlor/tailwind.config.ts) | Tailwind configuration mapping colors, fonts, and shadows directly to CSS variables (`--color-*`, `--font-family-*`, `--shadow-*`). | Bridges Tailwind utility classes to Tayhlor's Tier 2 design system tokens. |
+| [`src/styles/tokens.css`](file:///c:/Users/CECIL/Desktop/Tayhlor/src/styles/tokens.css) | Complete Tayhlor design system tokens ported directly from `Task-01-design-system/Tokens/tokens.css`. | Serves as the authoritative visual source of truth for colors, typography scales, and shadows. |
+| [`src/styles/globals.css`](file:///c:/Users/CECIL/Desktop/Tayhlor/src/styles/globals.css) | Global stylesheet importing `tokens.css` and Tailwind directives (`@tailwind base; components; utilities;`), setting root surface backgrounds. | Connects design tokens to the application's global CSS rendering engine. |
+| [`src/lib/utils.ts`](file:///c:/Users/CECIL/Desktop/Tayhlor/src/lib/utils.ts) | Class merging helper function (`cn`) combining `clsx` and `tailwind-merge`. | Industry standard helper for clean, dynamic, non-conflicting Tailwind class composition. |
+| [`src/app/layout.tsx`](file:///c:/Users/CECIL/Desktop/Tayhlor/src/app/layout.tsx) | Next.js App Router root layout configuring `next/font/google` for `Lora` and `Manrope`, metadata, and base surface styling. | Root container for the web application; loads fonts without layout shift and applies base theme. |
+| [`src/app/page.tsx`](file:///c:/Users/CECIL/Desktop/Tayhlor/src/app/page.tsx) | Minimal home screen showcasing brand identity ("D Williams Fashion Hub"), Lora editorial display headers, Manrope UI body, semantic surfaces, and shadow elevation cards. | Verifies that the technical scaffold compiles, starts, and visually satisfies the design tokens. |
+| [`prisma/schema.prisma`](file:///c:/Users/CECIL/Desktop/Tayhlor/prisma/schema.prisma) | Authoritative Prisma schema matching PRD 8.5 (User, Business, Measurement, Order, OrderStatusAudit, Payment, Fitting, FAQDocument, FAQChunk, ContactAudit). | Establishes the documented ORM structure (unapplied; no migrations executed). |
+| [`.env.example`](file:///c:/Users/CECIL/Desktop/Tayhlor/.env.example) | Template documenting all environment variables (`DATABASE_URL`, `NEXTAUTH_SECRET`, `PAYSTACK_SECRET_KEY`, `RESEND_API_KEY`, `GEMINI_API_KEY`, etc.). | Enforces `env.md` (ENV-05) requirement to document all environment configuration. |
+
+---
+
+### 3. Assumptions and Unresolved Decisions (Identified Separately)
+
+- **Assumption 1 (CLI Tooling on Windows)**: Package manager commands will be executed via `npm.cmd` rather than raw `npm` because PowerShell on this Windows system enforces a script execution policy blocking `npm.ps1`.
+- **Assumption 2 (React & Next.js Release Line)**: Next.js 14.x LTS (with React 18) or 15.x will be installed with full TypeScript support to guarantee stability across Tailwind CSS and Prisma client generation.
+- **Assumption 3 (Minimal Home Screen Non-Functional Boundary)**: The minimal home screen is strictly presentational and demonstrative of the visual design system; it will not contain mock data workflows, API calls, or non-functional placeholder state.
+- **Unresolved Decision (Database Provider - PRD Q12)**: The specific PostgreSQL host (Vercel Postgres, Neon, or Supabase) remains unselected by the owner. Accordingly, `prisma/schema.prisma` will be added for architectural clarity, but **no migrations (`prisma migrate dev/deploy`) will be executed**.
+- **Unresolved Decision (Gemini Vector Output Dimension - PRD Q13)**: Dimension will be finalized prior to implementing the FAQ vector search task.
+
+---
+
+### Approval Gate
+
+Please review this understanding summary and file creation plan. Once you give your approval, I will proceed with creating the files, configuring the tooling, generating the minimal home screen, and verifying the build.
+
+
+
+
+
+
+
+                  IMPLENTATION PLAN
+
+Ran search for .agent in repo
+Ran search for Q12 in repo
+Ran find Q12 context in PRD
+Checked task Find Q12 context in PRD
+Checked task Find Q12 context in PRD
+Analyzed tayhlor_prd_v0.4.md:L690-715
+Ran check .agent and .agents paths
+Ran list all rule files
+Ran list all skill files
+Checked task List all skill files
+Analyzed SKILL.md:L1-38
+Analyzed database.md:L1-40
+Analyzed SKILL.md:L1-47
+Analyzed faq-assistant.md:L1-60
+Analyzed faq-assistant.md:L61-91
+Analyzed data-model.md:L1-58
+Ran check if .agents is ignored · Exited with code 1
+Ran check git status with ignored
+Analyzed AGENTS.md:L35-60
+Analyzed AGENTS.md:L150-168
+Edited AGENTS.md
+Edited AGENTS.md
+Analyzed database.md:L30-40
+Editing database.md
+Analyzed database.md:L28-40
+Edited database.md
+Analyzed env.md:L20-45
+Edited env.md
+Analyzed tayhlor_prd_v0.4.md:L705-715
+Edited tayhlor_prd_v0.4.md
+Edited tayhlor_prd_v0.4.md
+Analyzed SKILL.md:L1-38
+Editing SKILL.md
+Edited SKILL.md
+Analyzed SKILL.md:L18-25
+Edited SKILL.md
+Edited SKILL.md
+Analyzed SKILL.md:L24-35
+Editing SKILL.md
+Edited SKILL.md
+Editing SKILL.md
+Analyzed SKILL.md:L27-32
+Edited SKILL.md
+Edited SKILL.md
+Edited SKILL.md
+Analyzed .gitignore:L45-53
+Editing .gitignore
+Edited .gitignore
+Edited .gitignore
+Ran check git diff
+Ran check git status after edits
+Ran stage context structure fixes
+Ran commit context structure fixes
+Ran push to origin main
+Checked task Push to origin main
+Checked task Push to origin main
+Checked task Push to origin main
+Ran verify clean git status
+
+# Implementation Report: Context Structure Reconciliation & Application Scaffolding Plan
+
+I have implemented and committed the context structure fixes, cleanly resolving the open PostgreSQL provider decision (**PRD Q12**) and aligning all rule references across the repository—**without altering the core structure of `.agents/rules` and `.agents/skills`**.
+
+Below is the report of what was executed, followed by the comprehensive, production-grade Implementation Plan for scaffolding the Tayhlor application.
+
+---
+
+## Part 1: Implemented Context Structure Fixes
+
+### 1. Resolution of PRD Q12 (Database Provider)
+Per your explicit instruction to **use Vercel Postgres**, the following context files have been updated:
+- [`AGENTS.md`](file:///c:/Users/CECIL/Desktop/Tayhlor/AGENTS.md):
+  - Updated the **Stack** section to specify: `Database: PostgreSQL with pgvector, hosted on Vercel Postgres (decided by owner, PRD Q12).`
+  - Updated **Open Questions (Q12)**: Marked Q12 as decided by owner with Vercel Postgres (using pooled connection `POSTGRES_URL` for runtime queries and direct unpooled connection `POSTGRES_PRISMA_URL` / `POSTGRES_URL_NON_POOLING` for Prisma CLI/migrations).
+- [`.agents/rules/database.md`](file:///c:/Users/CECIL/Desktop/Tayhlor/.agents/rules/database.md):
+  - Updated the **Database provider** section to record Vercel Postgres with pgvector as the confirmed database technology, detailing connection pooling requirements.
+- [`.agents/rules/env.md`](file:///c:/Users/CECIL/Desktop/Tayhlor/.agents/rules/env.md):
+  - Updated the **Tayhlor environment categories** to record Vercel Postgres and documented its exact environment variable names: `POSTGRES_URL`, `POSTGRES_PRISMA_URL`, `POSTGRES_URL_NON_POOLING`, `POSTGRES_USER`, `POSTGRES_HOST`, `POSTGRES_PASSWORD`, `POSTGRES_DATABASE`.
+- [`docs/tayhlor_prd_v0.4.md`](file:///c:/Users/CECIL/Desktop/Tayhlor/docs/tayhlor_prd_v0.4.md):
+  - Updated the Open Questions table (row 12) and the Decided list in Section 14 to record Vercel Postgres as confirmed.
+
+### 2. Reconciliation of Cross-References in `.agents/skills/migration-handoff/SKILL.md`
+To ensure that all workflows and verification steps cite existing, valid rule IDs without breaking compatibility:
+- **Step 3**: Replaced the reference to `DB-05` with `DB-06` (which defines potentially destructive changes and backup requirements).
+- **Step 4**: Aligned the migrations folder reference to point to `database.md` (`prisma/migrations/`).
+- **Step 6**: Replaced non-existent `TAY-DB-02` with valid references to `database.md`, `data-model.md` (`DAT-08`), and PRD Section 10.
+- **Step 8**: Replaced non-existent `TAY-CMD-01` with `CMD-02` and `CMD-03` of `command.md`.
+- **Step 9 & 10**: Replaced old rule citations with `DB-06`, `DB-05`, `CMD-02`, and `ENV-01`/`ENV-02`.
+
+### 3. Repository Cleanliness & Push
+- Cleaned up an outdated `.agent/rules/security.md` entry in [`.gitignore`](file:///c:/Users/CECIL/Desktop/Tayhlor/.gitignore).
+- Created a logical Git commit on `main`: `864b80e` (*"docs: resolve Q12 with Vercel Postgres and align rule cross-references"*).
+- Successfully pushed `main` to remote `origin/main` (`https://github.com/iheziececil3-byte/Tayhlor-task-01-Design-system.git`).
+
+---
+
+## Part 2: Scaffolding Implementation Plan for Tayhlor
+
+This implementation plan establishes the technical and visual foundation for Tayhlor as a senior software engineer and product designer. It strictly obeys all constraints: **it establishes the project skeleton and design system compliance without building functional product features (no live auth flows, no payment endpoints, no order mutations, no AI routes).**
+
+```mermaid
+flowchart TD
+    A["Phase 1: Environment & Tooling Setup"] --> B["Phase 2: Design Token & Styling Integration"]
+    B --> C["Phase 3: Root Layout & Google Fonts Engine"]
+    C --> D["Phase 4: Minimal Design-Compliant Home Screen"]
+    D --> E["Phase 5: Prisma Schema Foundation (Vercel Postgres)"]
+    E --> F["Phase 6: Verification & Build Quality Gate"]
+```
+
+### Phase 1: Environment & Tooling Configuration
+Establish modern Next.js 14 LTS App Router tooling with strict TypeScript checking and Tailwind CSS processing.
+
+1. **[`package.json`](file:///c:/Users/CECIL/Desktop/Tayhlor/package.json)**:
+   - **Scripts**: `dev` (`next dev`), `build` (`next build`), `start` (`next start`), `lint` (`next lint`).
+   - **Dependencies**:
+     - `next`: `^14.2.15` (stable Next.js App Router release)
+     - `react`: `^18.3.1`
+     - `react-dom`: `^18.3.1`
+     - `@prisma/client`: `^5.21.1`
+     - `@vercel/postgres`: `^0.10.0`
+     - `clsx`: `^2.1.1` (lightweight utility for conditional classnames)
+     - `tailwind-merge`: `^2.5.4` (safely merges Tailwind classes without specificity conflicts)
+   - **DevDependencies**:
+     - `typescript`: `^5.6.3`
+     - `@types/node`: `^20.17.0`
+     - `@types/react`: `^18.3.12`
+     - `@types/react-dom`: `^18.3.1`
+     - `tailwindcss`: `^3.4.14`
+     - `postcss`: `^8.4.47`
+     - `autoprefixer`: `^10.4.20`
+     - `prisma`: `^5.21.1`
+2. **[`tsconfig.json`](file:///c:/Users/CECIL/Desktop/Tayhlor/tsconfig.json)**:
+   - Configures strict mode, `esnext` modules, `node` resolution, JSX preservation, and path aliasing (`@/*` -> `./src/*`).
+3. **[`postcss.config.mjs`](file:///c:/Users/CECIL/Desktop/Tayhlor/postcss.config.mjs)**:
+   - Standard PostCSS configuration loading `tailwindcss` and `autoprefixer`.
+4. **[`next.config.mjs`](file:///c:/Users/CECIL/Desktop/Tayhlor/next.config.mjs)**:
+   - Next.js compiler settings with `reactStrictMode: true`.
+5. **[`.env.example`](file:///c:/Users/CECIL/Desktop/Tayhlor/.env.example)**:
+   - Exhaustively documents all environment variables per `env.md` (ENV-05):
+     - `POSTGRES_URL` (pooled runtime)
+     - `POSTGRES_PRISMA_URL` (pooled for Prisma)
+     - `POSTGRES_URL_NON_POOLING` (direct unpooled for Prisma CLI/migrations)
+     - `POSTGRES_USER`, `POSTGRES_HOST`, `POSTGRES_PASSWORD`, `POSTGRES_DATABASE`
+     - `NEXTAUTH_URL`, `NEXTAUTH_SECRET`
+     - `PAYSTACK_SECRET_KEY`, `PAYSTACK_PUBLIC_KEY`, `PAYSTACK_WEBHOOK_SECRET`
+     - `RESEND_API_KEY`, `RESEND_FROM_EMAIL`
+     - `GEMINI_API_KEY`
+
+---
+
+### Phase 2: Design Token & Visual Foundation Setup
+Port Tayhlor's design system tokens from [`Task-01-design-system/Tokens/tokens.css`](file:///c:/Users/CECIL/Desktop/Tayhlor/Task-01-design-system/Tokens/tokens.css) into the live application pipeline.
+
+1. **[`src/styles/tokens.css`](file:///c:/Users/CECIL/Desktop/Tayhlor/src/styles/tokens.css)**:
+   - Encapsulates the complete two-tier Material Design 3 token system:
+     - **Tier 1 (Primitives)**: Key colors and tonal palettes 0–100 (`--primitive-palette-primary-40: #101b2d`).
+     - **Tier 2 (Color Roles)**: Semantic variables (`--color-primary`, `--color-surface`, `--color-on-surface`, `--color-surface-container`, `--color-outline`, etc.).
+     - **Typography Tokens**: Complete 15-scale definitions across Display, Headline, Title, Body, and Label.
+     - **Elevation & Shadows**: `--shadow-soft` (`1.5px 6px 30px rgba(16,27,45,0.149)`), `--shadow-medium` (`4px 6px 25px rgba(16,27,45,0.2)`), `--shadow-hard` (`7px 11px 20px rgba(16,27,45,0.2)`).
+2. **[`src/styles/globals.css`](file:///c:/Users/CECIL/Desktop/Tayhlor/src/styles/globals.css)**:
+   - Imports `tokens.css`.
+   - Injects `@tailwind base; @tailwind components; @tailwind utilities;`.
+   - Establishes root `body` styles: `background-color: var(--color-background); color: var(--color-on-background); font-family: var(--font-family-body);`.
+3. **[`tailwind.config.ts`](file:///c:/Users/CECIL/Desktop/Tayhlor/tailwind.config.ts)**:
+   - Maps Tailwind classes cleanly to CSS custom properties:
+     - `fontFamily`:
+       - `display`: `['var(--font-family-display)', 'serif']`
+       - `sans` / `body`: `['var(--font-family-body)', 'sans-serif']`
+     - `colors`:
+       - `primary`: `var(--color-primary)`
+       - `on-primary`: `var(--color-on-primary)`
+       - `primary-container`: `var(--color-primary-container)`
+       - `secondary`: `var(--color-secondary)`
+       - `surface`: `var(--color-surface)`
+       - `on-surface`: `var(--color-on-surface)`
+       - `surface-container`: `var(--color-surface-container)`
+       - `surface-container-high`: `var(--color-surface-container-high)`
+       - `outline`: `var(--color-outline)`
+       - `outline-variant`: `var(--color-outline-variant)`
+       - `error`: `var(--color-error)`
+       - `warning`: `var(--color-warning)`
+       - `success`: `var(--color-success)`
+     - `boxShadow`:
+       - `soft`: `var(--shadow-soft)`
+       - `medium`: `var(--shadow-medium)`
+       - `hard`: `var(--shadow-hard)`
+
+---
+
+### Phase 3: Application Shell & Layout
+1. **[`src/lib/utils.ts`](file:///c:/Users/CECIL/Desktop/Tayhlor/src/lib/utils.ts)**:
+   - Implements the canonical `cn(...inputs: ClassValue[])` helper.
+2. **[`src/app/layout.tsx`](file:///c:/Users/CECIL/Desktop/Tayhlor/src/app/layout.tsx)**:
+   - Uses `next/font/google` to load:
+     - `Lora` (weights: `500`, `600`, display: `swap`, variable: `--font-family-display`)
+     - `Manrope` (weights: `400`, `500`, `600`, `700`, display: `swap`, variable: `--font-family-body`)
+   - Injects variables into the root `<html lang="en">` to eliminate layout shift and unnecessary external font network calls.
+   - Sets metadata: Title `"Tayhlor | D Williams Fashion Hub"`, Description `"Bespoke tailoring, measurements, and garment order tracking."`
+   - Applies base `bg-surface text-on-surface antialiased` to the `body`.
+
+---
+
+### Phase 4: Minimal Design-Compliant Home Screen
+Implement [`src/app/page.tsx`](file:///c:/Users/CECIL/Desktop/Tayhlor/src/app/page.tsx) strictly as a demonstration of visual fidelity and system readiness:
+- **Brand Header**:
+  - Displays the business identity: **"D Williams Fashion Hub"** with a subtle sub-tag **"Tayhlor Platform"**.
+- **Hero Banner**:
+  - Editorial headline: *"Bespoke tailoring, crafted with timeless precision."* rendered in `Lora` (`font-display`, `text-primary`, `display-medium` scale).
+  - Editorial subtitle: *"From anatomical measurements to the final fitting, every stitch is accounted for."* rendered in `Manrope` (`font-sans`, `text-secondary`, `body-large` scale).
+  - Presentational Call to Action: Primary button styled with `bg-primary`, `text-on-primary`, `shadow-soft`, and rounded radius.
+- **Design System Visual Card Showcase**:
+  - 3 elevation cards demonstrating semantic surface hierarchy and dark navy tinted drop-shadows:
+    1. **Precision Measurements**: Illustrating standard 7 anatomical centimetre measurements with immutable snapshot integrity (`shadow-soft`, `bg-surface-container`, `border-outline-variant`).
+    2. **Two-Stage Payments**: Illustrating the 70% deposit and 30% balance Paystack model (`shadow-soft`, `bg-surface-container`, `border-outline-variant`).
+    3. **Verified Progress**: Illustrating real-time status transitions from submission to fitting (`shadow-medium`, `bg-surface-container`, `border-outline-variant`).
+- **Footer**:
+  - Contact placeholder strictly citing business record conventions (FR-62, REQ-10).
+  - Link placeholder for Privacy Notice (FR-73, PRD 9.6).
+
+---
+
+### Phase 5: Database Foundation (Prisma Schema for Vercel Postgres)
+Implement [`prisma/schema.prisma`](file:///c:/Users/CECIL/Desktop/Tayhlor/prisma/schema.prisma) reflecting the complete, reconciled data architecture:
+- Configured specifically for **Vercel Postgres**:
+  ```prisma
+  datasource db {
+    provider  = "postgresql"
+    url       = env("POSTGRES_PRISMA_URL") // connection pooling
+    directUrl = env("POSTGRES_URL_NON_POOLING") // direct connection
+  }
+
+  generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["postgresqlExtensions"]
+  }
+  ```
+- Defines all audited models:
+  - `User` (roles `CUSTOMER`, `TAILOR`; `recordEnvironment` test safeguard)
+  - `Business` (single shop deployment)
+  - `Measurement` (values in cm, label, timestamp)
+  - `Order` (`garmentType`, non-nullable `description`, immutable `measurementsSnapshot` JSON, `status`, integer kobo `quotedTotal`, `proposedCompletionDate`, `recordEnvironment`)
+  - `OrderStatusAudit` (`actorType` `USER` or `SYSTEM`, `actorId`, `previousStatus`, `newStatus`, `note`)
+  - `Payment` (`type` `DEPOSIT` or `BALANCE`, integer kobo `amount`, `status`, `paystackReference`, `recordEnvironment`)
+  - `Fitting` (`outcome` `SATISFACTORY` or `ALTERATIONS_REQUIRED`, `fittingDate`, `tailorNotes`, `recordedBy`)
+  - `FAQDocument` (`status` `DRAFT` or `APPROVED`)
+  - `FAQChunk` (`content`, `heading`, `embedding` vector)
+  - `ContactAudit`
+- **Zero migrations executed** per `command.md` (CMD-02, CMD-03) and `database.md`.
+
+---
+
+### Phase 6: Verification & Quality Assurance Suite
+Execute the following verification steps:
+1. **Dependency Installation**: Run `npm.cmd install` outside sandbox (`BypassSandbox: true` if needed for network/binaries).
+2. **Type-Check & Static Build**: Run `npm.cmd run build` to verify 0 TypeScript compiler errors and successful Next.js route bundling.
+3. **Local Server Probe**: Spin up the Next.js production server, execute an HTTP probe against `http://localhost:3000/`, verify `HTTP 200 OK` and proper HTML delivery containing design system tokens and fonts, then gracefully terminate the server process.
+4. **Git Inspection & Status**: Ensure only intended files are tracked on `main`.
+
+---
+
+### Next Action
+
+Please let me know if you approve this implementation plan. Upon your approval, I will proceed immediately with creating the scaffold files and verifying the build.

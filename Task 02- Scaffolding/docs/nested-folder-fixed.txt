@@ -1,0 +1,14 @@
+                                                 nested-folder-fixed
+
+
+PS C:\Users\CECIL\Desktop\Tayhlor> cd tayhlor
+PS C:\Users\CECIL\Desktop\Tayhlor\tayhlor> npm run dev
+
+> tayhlor@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+ ✓ Ready in 8.1s

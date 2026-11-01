@@ -1,0 +1,1 @@
+I used Big pickle Ai agent in Opencode for building my app features.
