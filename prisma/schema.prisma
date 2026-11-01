@@ -1,0 +1,253 @@
+// ==============================================================================
+// Tayhlor Database Schema (Prisma)
+// Provider: Vercel Postgres with pgvector (PRD Q12, database.md)
+// Currency: NGN stored as integer minor units (kobo)
+// Test Safeguard: recordEnvironment marker on all models
+// ==============================================================================
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // Connection pooling with pgBouncer
+  directUrl = env("POSTGRES_URL_NON_POOLING") // Direct connection for CLI / migrations
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ------------------------------------------------------------------------------
+// Enums
+// ------------------------------------------------------------------------------
+
+enum Role {
+  CUSTOMER
+  TAILOR
+}
+
+enum RecordEnvironment {
+  LIVE
+  TEST
+  PREVIEW
+}
+
+enum OrderStatus {
+  SUBMITTED
+  ACCEPTED
+  DECLINED
+  IN_PROGRESS
+  READY_FOR_COLLECTION
+  COMPLETED
+  CANCELLED
+}
+
+enum ActorType {
+  USER
+  SYSTEM
+}
+
+enum PaymentType {
+  DEPOSIT
+  BALANCE
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESSFUL
+  FAILED
+  REFUNDED
+}
+
+enum FittingOutcome {
+  SATISFACTORY
+  ALTERATIONS_REQUIRED
+}
+
+enum DocumentStatus {
+  DRAFT
+  APPROVED
+}
+
+// ------------------------------------------------------------------------------
+// Core Models
+// ------------------------------------------------------------------------------
+
+model User {
+  id                String            @id @default(cuid())
+  email             String            @unique
+  emailVerified     DateTime?
+  fullName          String
+  phone             String?
+  passwordHash      String?
+  googleSubject     String?           @unique
+  role              Role              @default(CUSTOMER)
+  recordEnvironment RecordEnvironment @default(LIVE)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  // Relationships
+  measurements     Measurement[]
+  orders           Order[]
+  auditInitiated   OrderStatusAudit[]
+  fittingsRecorded Fitting[]
+  contactAudits    ContactAudit[]
+
+  @@index([email])
+  @@index([recordEnvironment])
+}
+
+model Business {
+  id                String            @id @default(cuid())
+  name              String
+  phone             String
+  email             String
+  address           String
+  recordEnvironment RecordEnvironment @default(LIVE)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  @@index([recordEnvironment])
+}
+
+model Measurement {
+  id                String            @id @default(cuid())
+  userId            String
+  user              User              @relation(fields: [userId], references: [id])
+  label             String
+  chest             Decimal?          @db.Decimal(5, 2)
+  waist             Decimal?          @db.Decimal(5, 2)
+  hip               Decimal?          @db.Decimal(5, 2)
+  shoulder          Decimal?          @db.Decimal(5, 2)
+  sleeve            Decimal?          @db.Decimal(5, 2)
+  inseam            Decimal?          @db.Decimal(5, 2)
+  length            Decimal?          @db.Decimal(5, 2)
+  recordEnvironment RecordEnvironment @default(LIVE)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  @@index([userId])
+  @@index([recordEnvironment])
+}
+
+model Order {
+  id                     String            @id @default(cuid())
+  customerId             String
+  customer               User              @relation(fields: [customerId], references: [id])
+  garmentType            String
+  description            String
+  measurementsSnapshot   Json
+  status                 OrderStatus       @default(SUBMITTED)
+  declineReason          String?
+  cancellationReason     String?
+  quotedTotal            Int? // Amount in minor units: kobo (1 NGN = 100 kobo)
+  proposedCompletionDate DateTime?
+  recordEnvironment      RecordEnvironment @default(LIVE)
+  createdAt              DateTime          @default(now())
+  updatedAt              DateTime          @updatedAt
+
+  // Relationships
+  payments     Payment[]
+  statusAudits OrderStatusAudit[]
+  fittings     Fitting[]
+
+  @@index([customerId])
+  @@index([status])
+  @@index([recordEnvironment])
+}
+
+model OrderStatusAudit {
+  id                String            @id @default(cuid())
+  orderId           String
+  order             Order             @relation(fields: [orderId], references: [id])
+  actorType         ActorType
+  actorId           String?
+  actor             User?             @relation(fields: [actorId], references: [id])
+  previousStatus    OrderStatus?
+  newStatus         OrderStatus
+  note              String?
+  recordEnvironment RecordEnvironment @default(LIVE)
+  createdAt         DateTime          @default(now())
+
+  @@index([orderId])
+  @@index([actorId])
+  @@index([recordEnvironment])
+}
+
+model Payment {
+  id                String            @id @default(cuid())
+  orderId           String
+  order             Order             @relation(fields: [orderId], references: [id])
+  type              PaymentType
+  amount            Int // Amount in minor units: kobo
+  status            PaymentStatus     @default(PENDING)
+  paystackReference String            @unique
+  paidAt            DateTime?
+  refundedAt        DateTime?
+  recordEnvironment RecordEnvironment @default(LIVE)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  @@index([orderId])
+  @@index([paystackReference])
+  @@index([recordEnvironment])
+}
+
+model Fitting {
+  id                String            @id @default(cuid())
+  orderId           String
+  order             Order             @relation(fields: [orderId], references: [id])
+  outcome           FittingOutcome
+  fittingDate       DateTime          @default(now())
+  tailorNotes       String?
+  recordedById      String
+  recordedBy        User              @relation(fields: [recordedById], references: [id])
+  recordEnvironment RecordEnvironment @default(LIVE)
+  createdAt         DateTime          @default(now())
+
+  @@index([orderId])
+  @@index([recordEnvironment])
+}
+
+model FAQDocument {
+  id                String            @id @default(cuid())
+  title             String
+  content           String
+  status            DocumentStatus    @default(DRAFT)
+  approvedAt        DateTime?
+  recordEnvironment RecordEnvironment @default(LIVE)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  chunks FAQChunk[]
+
+  @@index([status])
+  @@index([recordEnvironment])
+}
+
+model FAQChunk {
+  id                String            @id @default(cuid())
+  documentId        String
+  document          FAQDocument       @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  heading           String?
+  content           String
+  recordEnvironment RecordEnvironment @default(LIVE)
+  createdAt         DateTime          @default(now())
+
+  @@index([documentId])
+  @@index([recordEnvironment])
+}
+
+model ContactAudit {
+  id                String            @id @default(cuid())
+  customerId        String
+  customer          User              @relation(fields: [customerId], references: [id])
+  changedByTailorId String
+  fieldChanged      String
+  previousValue     String?
+  newValue          String?
+  recordEnvironment RecordEnvironment @default(LIVE)
+  createdAt         DateTime          @default(now())
+
+  @@index([customerId])
+  @@index([recordEnvironment])
+}
+
